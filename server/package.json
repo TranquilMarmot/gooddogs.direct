@@ -1,0 +1,23 @@
+{
+  "name": "find-a-dog-server",
+  "version": "0.1.0",
+  "author": "TranquilMarmot",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "ts-node-dev --no-notify index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/dotenv-flow": "^3.0.1",
+    "@types/express": "^4.17.7",
+    "axios": "^0.19.2",
+    "dotenv-flow": "^3.2.0",
+    "express": "^4.17.1",
+    "typescript": "^3.9.7"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "ts-node-dev": "^1.0.0-pre.57"
+  }
+}

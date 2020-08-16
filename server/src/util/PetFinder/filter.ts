@@ -1,10 +1,10 @@
 import { Animal } from "./types";
 
 /** Breeds to filter out */
-const breedFilters = ["Pit Bull", "Chihuahua", "Rottweiler"];
+const breedFilters = ["Pit Bull", "Chihuahua", "Rottweiler", "German Shepherd"];
 
 /** Descriptions to filter out */
-const descriptionFilters = ["fenced yard", "bonded pair"];
+const descriptionFilters = ["fenced yard", "bonded pair", "no apartment"];
 
 /**
  * Apply a base filter to a list of animals.
@@ -15,8 +15,8 @@ export const baseFilter = (animals: Animal[]): Animal[] =>
     (animal) =>
       !breedFilters.some(
         (breed) =>
-          animal.breeds.primary.includes(breed) ||
-          animal.breeds.secondary?.includes(breed)
+          animal.breeds.primary.toLowerCase().includes(breed.toLowerCase()) ||
+          animal.breeds.secondary?.toLowerCase().includes(breed.toLowerCase())
       )
   );
 
@@ -33,7 +33,7 @@ export const filterByDescription = (animals: Animal[]) =>
     (animal) =>
       !descriptionFilters.some(
         (descriptionFilter) =>
-          animal.description?.includes(descriptionFilter) ||
-          animal.fullDescription?.includes(descriptionFilter)
+          animal.description?.toLowerCase().includes(descriptionFilter) ||
+          animal.fullDescription?.toLowerCase().includes(descriptionFilter)
       )
   );

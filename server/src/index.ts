@@ -13,15 +13,17 @@ const { PETFINDER_API_KEY, PETFINDER_API_KEY_SECRET, PORT } = process.env;
 
 const app = express();
 
+/** The current API token to hit Petfinder */
 let currentToken: PetFinderToken | undefined = undefined;
+
+interface DogsQueryParams {
+  location?: string;
+}
 
 app.get("/dogs", async (req, res) => {
   if (!PETFINDER_API_KEY || !PETFINDER_API_KEY_SECRET) {
+    res.status(500).json({ error: "Server config error" });
     throw new Error("API key or API key secret not configured!");
-  }
-
-  interface DogsQueryParams {
-    location?: string;
   }
 
   const { location }: DogsQueryParams = req.query;
@@ -38,7 +40,12 @@ app.get("/dogs", async (req, res) => {
       location || "98122"
     );
 
-    res.json(dogs);
+    res.json({
+      animals: dogs.animals,
+      pagination: {
+        nextPage: dogs.pagination.current_page + 1,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error fetching dogs!" });

@@ -80,11 +80,12 @@ const getAuthToken = async (
  * @param token Active Petfinder API token
  * @param location Location to use when fetching dog list
  */
-export const getDogs = async (token: string, location: string) =>
+export const getDogs = async (token: string, location: string, page?: number) =>
   await api(token).get<AnimalsApiResponse>("/v2/animals", {
     params: {
       type: "dog",
       location,
+      page: page || 1,
     },
   });
 
@@ -115,7 +116,10 @@ export const getFilteredDogs = async (token: string, location: string) => {
   // then, we can filter the dogs by their full description
   const filteredByDescription = filterByDescription(filtered);
 
-  return filteredByDescription;
+  return {
+    animals: filteredByDescription,
+    pagination: dogs.data.pagination,
+  };
 };
 
 /**

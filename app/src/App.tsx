@@ -1,36 +1,31 @@
 /** @jsx jsx */
 import { Global, jsx, css } from "@emotion/core";
+import { FunctionComponent } from "react";
 import { useAsync } from "react-async";
 import axios from "axios";
 
 import { ServerResponse } from "./types";
 import Dog from "./Dog";
 import Loading from "./Loading";
-import { FunctionComponent } from "react";
+import Error from "./Error";
 
 const fetchAnimals = async () =>
   (await axios.get<ServerResponse>("/dogs")).data;
 
 const globalStyles = css`
   html,
-  body,
-  #root {
+  body {
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0;
+
+    background-color: #bcd0c4;
   }
-`;
 
-const containerStyle = css`
-  background-color: #bcd0c4;
-`;
-
-const containerLoadingStyle = css`
-  ${containerStyle}
-
-  width: 100%;
-  height: 100%;
+  #root {
+    min-height: 100%;
+  }
 `;
 
 const dogContainer = css`
@@ -49,16 +44,20 @@ const dogContainer = css`
 
 const headerStyle = css`
   font-family: "Fredoka One", cursive;
-  text-align: center;
+  text-align: right;
   font-size: 70px;
 
   margin: 0;
   padding-top: 10px;
+
+  color: #b8a3ce;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 `;
 
 const subHeaderStyle = css`
   font-family: "Faster One", cursive;
-  text-align: center;
+  text-align: right;
   font-size: 50px;
 
   margin: 0;
@@ -68,7 +67,7 @@ const App: FunctionComponent = () => {
   const { data, error, isPending } = useAsync<ServerResponse>(fetchAnimals);
 
   return (
-    <div css={isPending ? containerLoadingStyle : containerStyle}>
+    <div>
       <Global styles={globalStyles} />
       <h1 css={headerStyle}>Good Dogs</h1>
       <h2 css={subHeaderStyle}>Direct</h2>
@@ -80,6 +79,7 @@ const App: FunctionComponent = () => {
           ))}
         </div>
       )}
+      {error && <Error />}
     </div>
   );
 };

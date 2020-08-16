@@ -14,8 +14,8 @@ const iconContainerStyle = css`
 `;
 
 const iconStyle = css`
-  width: 50%;
-  height: 50%;
+  width: 500px;
+  height: 500px;
 `;
 
 const Loading: FunctionComponent = () => {

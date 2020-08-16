@@ -130,6 +130,7 @@ export enum Size {
 
 export enum Species {
   Dog = "Dog",
+  Cat = "Cat",
 }
 
 export enum Status {

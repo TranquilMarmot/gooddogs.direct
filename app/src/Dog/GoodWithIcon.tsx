@@ -16,37 +16,40 @@ const containerStyle = css`
 
 const goodWithIconStyle = css`
   position: absolute;
-  right: 5px;
-  bottom: 10px;
+  right: 2px;
+  bottom: 5px;
 
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 `;
 
 const checkIconStyle = css`
   ${goodWithIconStyle}
-  fill: green;
+  fill: #80db67;
+  stroke: black;
 
   & path {
-    fill: green;
+    fill: #80db67;
   }
 `;
 
 const crossedIconStyle = css`
   ${goodWithIconStyle}
-  fill: red;
+  fill: #f47676;
+  stroke: black;
 
   & path {
-    fill: red;
+    fill: #f47676;
   }
 `;
 
 const questionIconStyle = css`
   ${goodWithIconStyle}
-  fill: blue;
+  fill: #eebf4e;
+  stroke: black;
 
   & path {
-    fill: blue;
+    fill: #eebf4e;
   }
 `;
 

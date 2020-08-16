@@ -7,7 +7,6 @@ import { ServerResponse } from "./types";
 import Dog from "./Dog";
 import Loading from "./Loading";
 import { FunctionComponent } from "react";
-import { colorPrimary } from "./styles";
 
 const fetchAnimals = async () =>
   (await axios.get<ServerResponse>("/dogs")).data;
@@ -24,7 +23,7 @@ const globalStyles = css`
 `;
 
 const containerStyle = css`
-  background-color: ${colorPrimary};
+  background-color: #bcd0c4;
 `;
 
 const containerLoadingStyle = css`
@@ -38,6 +37,14 @@ const dogContainer = css`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+
+  & .dog-card {
+    background-color: #b8a3ce;
+  }
+
+  & .dog-card:nth-of-type(2n) {
+    background-color: #9ab8d4;
+  }
 `;
 
 const App: FunctionComponent = () => {

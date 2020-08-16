@@ -3,10 +3,11 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
 import { Animal } from "../types";
-import { colorTertiary } from "../styles";
 import { getRandomRotation } from "../util";
 import Info from "./Info";
 import GoodWith from "./GoodWith";
+
+import { ReactComponent as DogLookIcon } from "../images/dog_look.svg";
 
 interface DogProps {
   dog: Animal;
@@ -27,8 +28,6 @@ const containerStyle = css`
   text-decoration: none;
   color: #333;
 
-  background-color: ${colorTertiary};
-
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
   transition: box-shadow 0.5s, transform 1s;
@@ -48,6 +47,25 @@ const imageStyle = css`
   object-fit: cover;
   width: 200px;
   height: 200px;
+
+  border-radius: 50%;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+`;
+
+const noImageContainerStyle = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 200px;
+  height: 200px;
+
+  border: 1px solid black;
+  border-radius: 50%;
+
+  background-color: white;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
 const descriptionStyle = css`
@@ -75,19 +93,29 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
     transform: rotate(${imageRotateDeg}deg);
   `;
 
+  const currentPhoto = dog.photos && dog.photos[0];
+
   return (
     <a
+      className="dog-card"
       href={dog.url}
       target="_blank"
       rel="noopener noreferrer"
       css={backgroundRotateStyle}
     >
       <h2 css={nameStyle}>{dog.name}</h2>
-      <img
-        css={imageRotateStyle}
-        alt={`${dog.name}`}
-        src={dog.photos[0].large}
-      />
+      {currentPhoto ? (
+        <img
+          css={imageRotateStyle}
+          alt={`${dog.name}`}
+          src={currentPhoto.large}
+        />
+      ) : (
+        <div css={noImageContainerStyle}>
+          <DogLookIcon />
+        </div>
+      )}
+
       <Info distance={dog.distance} gender={dog.gender} />
       <div css={descriptionStyle}>
         {dog.description && dog.description.length > 0

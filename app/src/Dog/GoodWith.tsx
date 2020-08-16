@@ -18,8 +18,8 @@ const containerStyle = css`
 `;
 
 const dogCatIconStyle = css`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
 `;
 
 const GoodWith: FunctionComponent<GoodWithProps> = ({ environment }) => {

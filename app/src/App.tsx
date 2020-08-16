@@ -47,14 +47,31 @@ const dogContainer = css`
   }
 `;
 
+const headerStyle = css`
+  font-family: "Fredoka One", cursive;
+  text-align: center;
+  font-size: 70px;
+
+  margin: 0;
+  padding-top: 10px;
+`;
+
+const subHeaderStyle = css`
+  font-family: "Faster One", cursive;
+  text-align: center;
+  font-size: 50px;
+
+  margin: 0;
+`;
+
 const App: FunctionComponent = () => {
   const { data, error, isPending } = useAsync<ServerResponse>(fetchAnimals);
-
-  console.log(data);
 
   return (
     <div css={isPending ? containerLoadingStyle : containerStyle}>
       <Global styles={globalStyles} />
+      <h1 css={headerStyle}>Good Dogs</h1>
+      <h2 css={subHeaderStyle}>Direct</h2>
       {isPending && <Loading />}
       {data && (
         <div css={dogContainer}>

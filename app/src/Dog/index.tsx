@@ -30,6 +30,8 @@ const containerStyle = css`
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
+  border-radius: 15px;
+
   transition: box-shadow 0.5s, transform 1s;
 
   &:hover {
@@ -41,6 +43,11 @@ const containerStyle = css`
 const nameStyle = css`
   text-align: center;
   font-family: "Pangolin", cursive;
+
+  width: 100%;
+
+  border-bottom: 1px solid grey;
+  padding-bottom: 10px;
 `;
 
 const imageStyle = css`

@@ -25,10 +25,15 @@ const globalStyles = css`
 
 const containerStyle = css`
   background-color: ${colorPrimary};
+`;
+
+const containerLoadingStyle = css`
+  ${containerStyle}
 
   width: 100%;
   height: 100%;
 `;
+
 const dogContainer = css`
   display: flex;
   flex-wrap: wrap;
@@ -41,7 +46,7 @@ const App: FunctionComponent = () => {
   console.log(data);
 
   return (
-    <div css={containerStyle}>
+    <div css={isPending ? containerLoadingStyle : containerStyle}>
       <Global styles={globalStyles} />
       {isPending && <Loading />}
       {data && (

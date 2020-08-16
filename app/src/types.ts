@@ -29,7 +29,7 @@ export interface Animal {
   status: Status;
   status_changed_at: string;
   published_at: string;
-  distance: null;
+  distance: number | null;
   contact: Contact;
   _links: AnimalLinks;
 

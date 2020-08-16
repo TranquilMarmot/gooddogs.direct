@@ -2,10 +2,11 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { Animal } from "./types";
-import { colorTertiary } from "./styles";
-
-import { ReactComponent as DistanceIcon } from "./images/distance.svg";
+import { Animal } from "../types";
+import { colorTertiary } from "../styles";
+import { getRandomRotation } from "../util";
+import Info from "./Info";
+import GoodWith from "./GoodWith";
 
 interface DogProps {
   dog: Animal;
@@ -15,6 +16,8 @@ const containerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: 275px;
 
   margin: 50px;
   padding-left: 20px;
@@ -47,31 +50,16 @@ const imageStyle = css`
   height: 200px;
 `;
 
-const distanceContainerStyle = css`
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-  margin-top: 20px;
+const descriptionStyle = css`
+  margin-top: 15px;
+  flex: 1;
 `;
-
-const distanceIconStyle = css`
-  width: 40px;
-  height: 40px;
-`;
-
-const getRandomRotation = (min: number, max: number): number => {
-  const rotate = Math.random() * (max - min) + min;
-
-  return Math.random() >= 0.5 ? rotate : -rotate;
-};
 
 const Dog: FunctionComponent<DogProps> = ({ dog }) => {
-  const containerRotateDeg = getRandomRotation(3, 15);
-
+  const containerRotateDeg = getRandomRotation(3, 7);
   const containerHoverRotateDeg = containerRotateDeg - containerRotateDeg / 2.5;
 
-  const imageRotateDeg = getRandomRotation(1, 5);
+  const imageRotateDeg = 0;
 
   const backgroundRotateStyle = css`
     ${containerStyle}
@@ -100,10 +88,13 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
         alt={`${dog.name}`}
         src={dog.photos[0].large}
       />
-      <div css={distanceContainerStyle}>
-        <DistanceIcon css={distanceIconStyle} /> {Math.ceil(dog.distance!)}{" "}
-        miles
+      <Info distance={dog.distance} gender={dog.gender} />
+      <div css={descriptionStyle}>
+        {dog.description && dog.description.length > 0
+          ? dog.description
+          : "(no description)"}
       </div>
+      <GoodWith environment={dog.environment} />
     </a>
   );
 };

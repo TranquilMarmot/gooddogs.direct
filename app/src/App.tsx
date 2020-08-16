@@ -25,10 +25,14 @@ const globalStyles = css`
 
 const containerStyle = css`
   background-color: ${colorPrimary};
+
+  width: 100%;
+  height: 100%;
 `;
 const dogContainer = css`
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 `;
 
 const App: FunctionComponent = () => {

@@ -1,34 +1,44 @@
-import React from "react";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
 import { useAsync } from "react-async";
 import axios from "axios";
 
-import { Animal } from "./types";
-
-interface ServerResponse {
-  animals: Animal[];
-  pagination: {
-    nextPage: number;
-  };
-}
+import { ServerResponse } from "./types";
+import Dog from "./Dog";
+import Loading from "./Loading";
+import { FunctionComponent } from "react";
 
 const fetchAnimals = async () =>
   (await axios.get<ServerResponse>("/dogs")).data;
 
-function App() {
+const containerStyle = css`
+  width: 100%;
+  height: 100%;
+  background-color: cyan;
+`;
+const dogContainer = css`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const App: FunctionComponent = () => {
   const { data, error, isPending } = useAsync<ServerResponse>(fetchAnimals);
 
+  console.log(data);
+
   return (
-    <div>
+    <div css={containerStyle}>
       <header>Let's find a dog!!!</header>
-      {data &&
-        data.animals.map((dog) => (
-          <div key={`dog-${dog.id}`}>
-            <h2>{dog.name}</h2>
-            <img src={dog.photos[0].medium} />
-          </div>
-        ))}
+      {isPending && <Loading />}
+      {data && (
+        <div css={dogContainer}>
+          {data.animals.map((dog) => (
+            <Dog key={`dog-${dog.id}`} dog={dog} />
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;

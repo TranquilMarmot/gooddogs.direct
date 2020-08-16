@@ -1,3 +1,10 @@
+export interface ServerResponse {
+  animals: Animal[];
+  pagination: {
+    nextPage: number;
+  };
+}
+
 export interface Animal {
   id: number;
   organization_id: string;

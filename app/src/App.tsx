@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+import { Global, jsx, css } from "@emotion/core";
 import { useAsync } from "react-async";
 import axios from "axios";
 
@@ -7,14 +7,24 @@ import { ServerResponse } from "./types";
 import Dog from "./Dog";
 import Loading from "./Loading";
 import { FunctionComponent } from "react";
+import { colorPrimary } from "./styles";
 
 const fetchAnimals = async () =>
   (await axios.get<ServerResponse>("/dogs")).data;
 
+const globalStyles = css`
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
 const containerStyle = css`
-  width: 100%;
-  height: 100%;
-  background-color: cyan;
+  background-color: ${colorPrimary};
 `;
 const dogContainer = css`
   display: flex;
@@ -28,7 +38,7 @@ const App: FunctionComponent = () => {
 
   return (
     <div css={containerStyle}>
-      <header>Let's find a dog!!!</header>
+      <Global styles={globalStyles} />
       {isPending && <Loading />}
       {data && (
         <div css={dogContainer}>

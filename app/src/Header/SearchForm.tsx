@@ -188,7 +188,7 @@ const SearchForm: FunctionComponent<SearchFormProps> = ({ doSearch }) => {
         </label>
       </div>
 
-      <Sparkles color="#FFC700">
+      <Sparkles active={location.trim().length > 0}>
         <button css={submitButtonStyle} type="submit">
           Find Good Dogs
         </button>

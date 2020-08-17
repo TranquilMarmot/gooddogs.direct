@@ -22,7 +22,7 @@ const Loading: FunctionComponent = () => {
   const svgRef = useRef<SVGSVGElement>(null);
   useEffect(() => {
     new Vivus((svgRef.current as unknown) as HTMLElement, { duration: 200 });
-  }, [svgRef.current]);
+  }, []);
 
   return (
     <div css={iconContainerStyle}>

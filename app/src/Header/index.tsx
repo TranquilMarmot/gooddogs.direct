@@ -48,7 +48,7 @@ const Header: FunctionComponent<HeaderProps> = ({ doSearch }) => {
     <div css={containerStyle}>
       <SearchForm doSearch={doSearch} />
       <div css={headerContainerStyle}>
-        <Sparkles color="#FFC700">
+        <Sparkles>
           <h1 css={headerStyle}>Good Dogs</h1>
         </Sparkles>
         <h2 css={subHeaderStyle}>Direct</h2>

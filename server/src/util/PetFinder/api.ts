@@ -37,7 +37,7 @@ export const refetchAuthTokenIfExpired = async (
 
   // check if the token we're given is expired
   const now = new Date();
-  const nowMinusFiveSeconds = new Date(now.getMilliseconds() - 5000);
+  const nowMinusFiveSeconds = new Date(now.valueOf() - 5000);
   const expired = token.expires_at < nowMinusFiveSeconds;
   if (expired) {
     return await getAuthToken(apiKey, apiKeySecret);

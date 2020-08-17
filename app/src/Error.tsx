@@ -29,6 +29,7 @@ const sadnessStyle = css`
 const Error: FunctionComponent = () => (
   <div css={containerStyle}>
     <h3 css={errorStyle}>Sorry, there was an error getting pets!</h3>
+    <h4 css={errorStyle}>Please try again later</h4>
     <SadnessIcon css={sadnessStyle} />
   </div>
 );

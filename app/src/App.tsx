@@ -8,6 +8,7 @@ import { ServerResponse } from "./types";
 import Dog from "./Dog";
 import Loading from "./Loading";
 import Error from "./Error";
+import Header from "./Header";
 
 const fetchAnimals = async () =>
   (
@@ -49,35 +50,17 @@ const dogContainer = css`
   }
 `;
 
-const headerStyle = css`
-  font-family: "Fredoka One", cursive;
-  text-align: right;
-  font-size: 70px;
-
-  margin: 0;
-  padding-top: 10px;
-
-  color: #b8a3ce;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-`;
-
-const subHeaderStyle = css`
-  font-family: "Faster One", cursive;
-  text-align: right;
-  font-size: 50px;
-
-  margin: 0;
-`;
-
 const App: FunctionComponent = () => {
   const { data, error, isPending } = useAsync<ServerResponse>(fetchAnimals);
 
   return (
     <div>
       <Global styles={globalStyles} />
-      <h1 css={headerStyle}>Good Dogs</h1>
-      <h2 css={subHeaderStyle}>Direct</h2>
+      <Header
+        doSearch={(location: string, apartmentFriendly: boolean) =>
+          console.log(location, apartmentFriendly)
+        }
+      />
       {isPending && <Loading />}
       {data && (
         <div css={dogContainer}>

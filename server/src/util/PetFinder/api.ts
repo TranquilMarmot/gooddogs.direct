@@ -95,11 +95,17 @@ export const getDogs = async (token: string, location: string, page?: number) =>
  * @param token Active Petfinder API token
  * @param location Location to use when fetching dog list
  */
-export const getFilteredDogs = async (token: string, location: string) => {
+export const getFilteredDogs = async (
+  token: string,
+  location: string,
+  apartmentFriendly?: boolean
+) => {
   const dogs = await getDogs(token, location);
 
   // first, we apply a base filter to get rid of known values
-  const filtered = baseFilter(dogs.data.animals);
+  const filtered = apartmentFriendly
+    ? baseFilter(dogs.data.animals)
+    : dogs.data.animals;
 
   // then, we have to fetch the full description for all of the dogs since
   // the description that comes back in the API is truncated
@@ -108,13 +114,15 @@ export const getFilteredDogs = async (token: string, location: string) => {
   );
 
   // mix the full description into the list...
-  // this relied on Promise.all preserving order 😬
+  // this relies on Promise.all preserving order 😬
   for (let i = 0; i < descriptions.length; i++) {
     filtered[i].fullDescription = descriptions[i];
   }
 
   // then, we can filter the dogs by their full description
-  const filteredByDescription = filterByDescription(filtered);
+  const filteredByDescription = apartmentFriendly
+    ? filterByDescription(filtered)
+    : filtered;
 
   return {
     animals: filteredByDescription,

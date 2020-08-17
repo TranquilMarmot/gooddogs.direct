@@ -10,7 +10,14 @@ import Loading from "./Loading";
 import Error from "./Error";
 
 const fetchAnimals = async () =>
-  (await axios.get<ServerResponse>("/dogs")).data;
+  (
+    await axios.get<ServerResponse>("/dogs", {
+      params: {
+        location: "98122",
+        apartmentFriendly: true,
+      },
+    })
+  ).data;
 
 const globalStyles = css`
   html,

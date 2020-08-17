@@ -1,7 +1,13 @@
 import { Animal } from "./types";
 
 /** Breeds to filter out */
-const breedFilters = ["Pit Bull", "Chihuahua", "Rottweiler", "German Shepherd"];
+const breedFilters = [
+  "Pit Bull",
+  "Chihuahua",
+  "Rottweiler",
+  "German Shepherd",
+  "Great Dane",
+];
 
 /** Descriptions to filter out */
 const descriptionFilters = ["fenced yard", "bonded pair", "no apartment"];

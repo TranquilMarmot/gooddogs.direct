@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
+
 import SearchForm from "./SearchForm";
+import Sparkles from "../Sparkles";
 
 const headerContainerStyle = css`
   margin-right: 15px;
@@ -46,7 +48,9 @@ const Header: FunctionComponent<HeaderProps> = ({ doSearch }) => {
     <div css={containerStyle}>
       <SearchForm doSearch={doSearch} />
       <div css={headerContainerStyle}>
-        <h1 css={headerStyle}>Good Dogs</h1>
+        <Sparkles color="#FFC700">
+          <h1 css={headerStyle}>Good Dogs</h1>
+        </Sparkles>
         <h2 css={subHeaderStyle}>Direct</h2>
       </div>
     </div>

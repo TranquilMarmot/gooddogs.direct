@@ -10,6 +10,8 @@ import {
 
 import { ReactComponent as GpsIcon } from "../images/gps.svg";
 
+import Sparkles from "../Sparkles";
+
 interface SearchFormProps {
   doSearch: (location: string, apartmentFriendly: boolean) => void;
 }
@@ -75,6 +77,11 @@ const locationInputStyle = css`
   border-radius: 5px;
   padding: 10px;
   width: 150px;
+`;
+
+const submitButtonStyle = css`
+  ${buttonStyle}
+  width: 100%;
 `;
 
 const onFormSubmit = (
@@ -181,9 +188,11 @@ const SearchForm: FunctionComponent<SearchFormProps> = ({ doSearch }) => {
         </label>
       </div>
 
-      <button css={buttonStyle} type="submit">
-        Find Good Dogs
-      </button>
+      <Sparkles color="#FFC700">
+        <button css={submitButtonStyle} type="submit">
+          Find Good Dogs
+        </button>
+      </Sparkles>
     </form>
   );
 };

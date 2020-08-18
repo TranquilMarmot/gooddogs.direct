@@ -19,6 +19,7 @@ let currentToken: PetFinderToken | undefined = undefined;
 interface DogsQueryParams {
   location?: string;
   apartmentFriendly?: string;
+  page?: string;
 }
 
 app.get("/dogs", async (req, res) => {
@@ -27,7 +28,7 @@ app.get("/dogs", async (req, res) => {
     throw new Error("API key or API key secret not configured!");
   }
 
-  const { location, apartmentFriendly }: DogsQueryParams = req.query;
+  const { location, apartmentFriendly, page }: DogsQueryParams = req.query;
 
   try {
     currentToken = await refetchAuthTokenIfExpired(
@@ -39,7 +40,8 @@ app.get("/dogs", async (req, res) => {
     const dogs = await getFilteredDogs(
       currentToken.access_token,
       location || "98122",
-      apartmentFriendly === "true"
+      apartmentFriendly === "true",
+      page ? Number.parseInt(page, 10) : 1
     );
 
     res.json({

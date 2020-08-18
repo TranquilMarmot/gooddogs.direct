@@ -98,9 +98,10 @@ export const getDogs = async (token: string, location: string, page?: number) =>
 export const getFilteredDogs = async (
   token: string,
   location: string,
-  apartmentFriendly?: boolean
+  apartmentFriendly?: boolean,
+  page?: number
 ) => {
-  const dogs = await getDogs(token, location);
+  const dogs = await getDogs(token, location, page);
 
   // first, we apply a base filter to get rid of known values
   const filtered = apartmentFriendly

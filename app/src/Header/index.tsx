@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, Dispatch, SetStateAction } from "react";
 
 import SearchForm from "./SearchForm";
 import Sparkles from "../Sparkles";
@@ -40,13 +40,31 @@ const containerStyle = css`
 `;
 
 interface HeaderProps {
-  doSearch: (location: string, apartmentFriendly: boolean) => void;
+  doSearch: () => void;
+
+  location: string;
+  setLocation: Dispatch<SetStateAction<string>>;
+
+  apartmentFriendly: boolean;
+  setApartmentFriendly: Dispatch<SetStateAction<boolean>>;
 }
 
-const Header: FunctionComponent<HeaderProps> = ({ doSearch }) => {
+const Header: FunctionComponent<HeaderProps> = ({
+  doSearch,
+  location,
+  setLocation,
+  apartmentFriendly,
+  setApartmentFriendly,
+}) => {
   return (
     <div css={containerStyle}>
-      <SearchForm doSearch={doSearch} />
+      <SearchForm
+        doSearch={doSearch}
+        location={location}
+        setLocation={setLocation}
+        apartmentFriendly={apartmentFriendly}
+        setApartmentFriendly={setApartmentFriendly}
+      />
       <div css={headerContainerStyle}>
         <Sparkles>
           <h1 css={headerStyle}>Good Dogs</h1>

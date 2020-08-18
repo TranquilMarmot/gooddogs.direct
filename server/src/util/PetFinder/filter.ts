@@ -15,6 +15,7 @@ const descriptionFilters = [
   "bonded pair",
   "no apartment",
   "not suitable for an apartment",
+  "requires another dog",
 ];
 
 /**

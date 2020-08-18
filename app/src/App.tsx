@@ -47,22 +47,29 @@ const dogContainer = css`
 `;
 
 const fetchAnimals = async (
+  location: string,
+  apartmentFriendly: boolean,
   currentPets: Animal[],
-  nextPage: number,
+  page: number,
   setPets: Dispatch<SetStateAction<Animal[]>>,
   setLoading: Dispatch<SetStateAction<boolean>>,
   setCurrentPage: Dispatch<SetStateAction<number>>,
   setError: Dispatch<SetStateAction<boolean>>
 ) => {
+  if (location.trim().length <= 0) {
+    alert("Please enter a location or find yourself with geolocation first!");
+    return;
+  }
+
   setLoading(true);
 
   try {
     const response = (
       await axios.get<ServerResponse>("/dogs", {
         params: {
-          location: "98122",
-          apartmentFriendly: true,
-          page: nextPage,
+          location,
+          apartmentFriendly,
+          page: page,
         },
       })
     ).data;
@@ -82,12 +89,18 @@ const fetchAnimals = async (
 
 const App: FunctionComponent = () => {
   const [pets, setPets] = useState<Animal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [infiniteScrollEnabled, setInfiniteScrollEnabled] = useState(false);
   const [error, setError] = useState(false);
 
-  const doFetchAnimals = async () =>
+  const [location, setLocation] = useState("");
+  const [apartmentFriendly, setApartmentFriendly] = useState(true);
+
+  const doFetchAnimals = () => {
     fetchAnimals(
+      location,
+      apartmentFriendly,
       pets,
       currentPage,
       setPets,
@@ -95,24 +108,27 @@ const App: FunctionComponent = () => {
       setCurrentPage,
       setError
     );
+  };
 
   const infiniteRef = useInfiniteScroll<HTMLDivElement>({
     loading,
-    hasNextPage: true,
+    hasNextPage: infiniteScrollEnabled,
     onLoadMore: doFetchAnimals,
   });
-
-  useEffect(() => {
-    doFetchAnimals();
-  }, []);
 
   return (
     <div ref={infiniteRef}>
       <Global styles={globalStyles} />
       <Header
-        doSearch={(location: string, apartmentFriendly: boolean) =>
-          console.log(location, apartmentFriendly)
-        }
+        doSearch={() => {
+          setPets([]);
+          doFetchAnimals();
+          setInfiniteScrollEnabled(true);
+        }}
+        location={location}
+        setLocation={setLocation}
+        apartmentFriendly={apartmentFriendly}
+        setApartmentFriendly={setApartmentFriendly}
       />
       {pets && (
         <div css={dogContainer}>

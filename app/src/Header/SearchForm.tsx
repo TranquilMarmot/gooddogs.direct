@@ -1,13 +1,19 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState, FormEvent } from "react";
+import { FunctionComponent, FormEvent, Dispatch, SetStateAction } from "react";
 
 import Sparkles from "../Sparkles";
 import { buttonStyle } from "../styles";
 import LocationInput from "./LocationInput";
 
 interface SearchFormProps {
-  doSearch: (location: string, apartmentFriendly: boolean) => void;
+  doSearch: () => void;
+
+  location: string;
+  setLocation: Dispatch<SetStateAction<string>>;
+
+  apartmentFriendly: boolean;
+  setApartmentFriendly: Dispatch<SetStateAction<boolean>>;
 }
 
 const formStyle = css`
@@ -26,29 +32,20 @@ const submitButtonStyle = css`
   width: 100%;
 `;
 
-const onFormSubmit = (
-  e: FormEvent<HTMLFormElement>,
-  doSearch: (location: string, apartmentFriendly: boolean) => void,
-  location: string,
-  apartmentFriendly: boolean
-) => {
-  e.preventDefault();
-
-  if (location.trim().length <= 0) {
-    alert("Please enter a location or find yourself with geolocation first!");
-  } else {
-    doSearch(location, apartmentFriendly);
-  }
-};
-
-const SearchForm: FunctionComponent<SearchFormProps> = ({ doSearch }) => {
-  const [location, setLocation] = useState("");
-  const [apartmentFriendly, setApartmentFriendly] = useState(true);
-
+const SearchForm: FunctionComponent<SearchFormProps> = ({
+  doSearch,
+  location,
+  setLocation,
+  apartmentFriendly,
+  setApartmentFriendly,
+}) => {
   return (
     <form
       css={formStyle}
-      onSubmit={(e) => onFormSubmit(e, doSearch, location, apartmentFriendly)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        doSearch();
+      }}
     >
       <LocationInput location={location} setLocation={setLocation} />
 

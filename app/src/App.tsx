@@ -1,12 +1,6 @@
 /** @jsx jsx */
 import { Global, jsx, css } from "@emotion/core";
-import {
-  FunctionComponent,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from "react";
+import { FunctionComponent, useState, Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 
@@ -91,7 +85,6 @@ const App: FunctionComponent = () => {
   const [pets, setPets] = useState<Animal[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [infiniteScrollEnabled, setInfiniteScrollEnabled] = useState(false);
   const [error, setError] = useState(false);
 
   const [location, setLocation] = useState("");
@@ -112,7 +105,7 @@ const App: FunctionComponent = () => {
 
   const infiniteRef = useInfiniteScroll<HTMLDivElement>({
     loading,
-    hasNextPage: infiniteScrollEnabled,
+    hasNextPage: pets.length > 0,
     onLoadMore: doFetchAnimals,
   });
 
@@ -123,7 +116,6 @@ const App: FunctionComponent = () => {
         doSearch={() => {
           setPets([]);
           doFetchAnimals();
-          setInfiniteScrollEnabled(true);
         }}
         location={location}
         setLocation={setLocation}

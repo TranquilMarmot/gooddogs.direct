@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, FormEvent, Dispatch, SetStateAction } from "react";
+import { FunctionComponent, Dispatch, SetStateAction } from "react";
 
 import Sparkles from "../Sparkles";
 import { buttonStyle } from "../styles";

@@ -10,7 +10,12 @@ const breedFilters = [
 ];
 
 /** Descriptions to filter out */
-const descriptionFilters = ["fenced yard", "bonded pair", "no apartment"];
+const descriptionFilters = [
+  "fenced yard",
+  "bonded pair",
+  "no apartment",
+  "not suitable for an apartment",
+];
 
 /**
  * Apply a base filter to a list of animals.

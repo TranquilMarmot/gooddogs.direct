@@ -49,7 +49,7 @@ app.get("/dogs", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error(error.data);
+    console.error(error);
 
     // if we get this back, it means that the token is probably expired and we should try and fetch a new one...
     if (error.data?.detail?.includes("Access token invalid or expired")) {

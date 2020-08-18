@@ -86,31 +86,24 @@ const App: FunctionComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(false);
 
+  const doFetchAnimals = async () =>
+    fetchAnimals(
+      pets,
+      currentPage,
+      setPets,
+      setLoading,
+      setCurrentPage,
+      setError
+    );
+
   const infiniteRef = useInfiniteScroll<HTMLDivElement>({
     loading,
     hasNextPage: true,
-    onLoadMore: () =>
-      fetchAnimals(
-        pets,
-        currentPage,
-        setPets,
-        setLoading,
-        setCurrentPage,
-        setError
-      ),
+    onLoadMore: doFetchAnimals,
   });
 
   useEffect(() => {
-    (async () => {
-      await fetchAnimals(
-        pets,
-        currentPage,
-        setPets,
-        setLoading,
-        setCurrentPage,
-        setError
-      );
-    })();
+    doFetchAnimals();
   }, []);
 
   return (

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import { Animal } from "../types";
 import { getRandomRotation } from "../util";
@@ -81,10 +81,10 @@ const descriptionStyle = css`
 `;
 
 const Dog: FunctionComponent<DogProps> = ({ dog }) => {
-  const containerRotateDeg = getRandomRotation(3, 7);
-  const containerHoverRotateDeg = containerRotateDeg - containerRotateDeg / 2.5;
-
-  const imageRotateDeg = 0;
+  const [containerRotateDeg] = useState(getRandomRotation(3, 7));
+  const [containerHoverRotateDeg] = useState(
+    containerRotateDeg - containerRotateDeg / 2.5
+  );
 
   const backgroundRotateStyle = css`
     ${containerStyle}
@@ -93,11 +93,6 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
     &:hover {
       transform: rotate(${containerHoverRotateDeg}deg);
     }
-  `;
-
-  const imageRotateStyle = css`
-    ${imageStyle}
-    transform: rotate(${imageRotateDeg}deg);
   `;
 
   const currentPhoto = dog.photos && dog.photos[0];
@@ -112,11 +107,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
     >
       <h2 css={nameStyle}>{dog.name}</h2>
       {currentPhoto ? (
-        <img
-          css={imageRotateStyle}
-          alt={`${dog.name}`}
-          src={currentPhoto.large}
-        />
+        <img css={imageStyle} alt={`${dog.name}`} src={currentPhoto.large} />
       ) : (
         <div css={noImageContainerStyle}>
           <DogLookIcon />

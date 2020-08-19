@@ -13,7 +13,7 @@ interface DogProps {
   dog: Animal;
 }
 
-const containerStyle = css`
+export const containerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,7 @@ const containerStyle = css`
   }
 `;
 
-const nameStyle = css`
+export const nameStyle = css`
   text-align: center;
   font-family: "Pangolin", cursive;
 
@@ -59,7 +59,7 @@ const imageStyle = css`
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
-const noImageContainerStyle = css`
+export const noImageContainerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,7 +86,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
     containerRotateDeg - containerRotateDeg / 2.5
   );
 
-  const backgroundRotateStyle = css`
+  const containerRotateStyle = css`
     ${containerStyle}
     transform: rotate(${containerRotateDeg}deg);
 
@@ -103,7 +103,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
       href={dog.url}
       target="_blank"
       rel="noopener noreferrer"
-      css={backgroundRotateStyle}
+      css={containerRotateStyle}
     >
       <h2 css={nameStyle}>{dog.name}</h2>
       {currentPhoto ? (
@@ -111,6 +111,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
       ) : (
         <div css={noImageContainerStyle}>
           <DogLookIcon />
+          No Image
         </div>
       )}
 

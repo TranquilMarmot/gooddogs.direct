@@ -5,8 +5,6 @@ import axios from "axios";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 
 import { ServerResponse, Animal } from "./types";
-import Dog from "./Dog";
-import Loading from "./Loading";
 import Error from "./Error";
 import Header from "./Header";
 import PetGrid from "./PetGrid";
@@ -109,8 +107,7 @@ const App: FunctionComponent = () => {
         apartmentFriendly={apartmentFriendly}
         setApartmentFriendly={setApartmentFriendly}
       />
-      {pets && <PetGrid pets={pets} />}
-      {loading && <Loading />}
+      {pets && <PetGrid pets={pets} loading={loading} />}
       {error && <Error />}
     </div>
   );

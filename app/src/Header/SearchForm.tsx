@@ -61,7 +61,7 @@ const SearchForm: FunctionComponent<SearchFormProps> = ({
         </label>
       </div>
 
-      <Sparkles active={location.trim().length > 0}>
+      <Sparkles active={false && location.trim().length > 0}>
         <button css={submitButtonStyle} type="submit">
           Find Good Dogs
         </button>

@@ -30,7 +30,7 @@ interface SparklesProps {
 const Sparkles: FunctionComponent<PropsWithChildren<SparklesProps>> = ({
   color = "#FFC700",
   children,
-  active = true,
+  active = false,
 }) => {
   const [sparkles, setSparkles] = useState<SparkleType[]>([]);
 
@@ -51,8 +51,8 @@ const Sparkles: FunctionComponent<PropsWithChildren<SparklesProps>> = ({
 
       setSparkles(nextSparkles);
     },
-    50,
-    450
+    1000,
+    2000
   );
 
   return (

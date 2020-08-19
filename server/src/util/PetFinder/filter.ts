@@ -7,6 +7,7 @@ const breedFilters = [
   "Rottweiler",
   "German Shepherd",
   "Great Dane",
+  "Staffordshire Bull Terrier",
 ];
 
 /** Descriptions to filter out */

@@ -9,6 +9,7 @@ import Dog from "./Dog";
 import Loading from "./Loading";
 import Error from "./Error";
 import Header from "./Header";
+import PetGrid from "./PetGrid";
 
 const globalStyles = css`
   html,
@@ -23,20 +24,6 @@ const globalStyles = css`
 
   #root {
     min-height: 100%;
-  }
-`;
-
-const dogContainer = css`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-
-  & .dog-card {
-    background-color: #b8a3ce;
-  }
-
-  & .dog-card:nth-of-type(2n) {
-    background-color: #9ab8d4;
   }
 `;
 
@@ -122,13 +109,7 @@ const App: FunctionComponent = () => {
         apartmentFriendly={apartmentFriendly}
         setApartmentFriendly={setApartmentFriendly}
       />
-      {pets && (
-        <div css={dogContainer}>
-          {pets.map((dog) => (
-            <Dog key={`dog-${dog.id}`} dog={dog} />
-          ))}
-        </div>
-      )}
+      {pets && <PetGrid pets={pets} />}
       {loading && <Loading />}
       {error && <Error />}
     </div>

@@ -71,7 +71,7 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({
       )}
       {showFindMe && (
         <div css={locationContainerStyle}>
-          <GpsButton setLocation={setLocation} />
+          <GpsButton setLocation={setLocation} location={location} />
           or
           <button
             css={swapLocationButtonStyle}

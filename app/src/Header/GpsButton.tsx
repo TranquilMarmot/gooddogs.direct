@@ -84,9 +84,13 @@ const getZipCode = async (latitude: number, longitude: number) => {
 
 interface GpsButtonProps {
   setLocation: Dispatch<SetStateAction<string>>;
+  location: string;
 }
 
-const GpsButton: FunctionComponent<GpsButtonProps> = ({ setLocation }) => {
+const GpsButton: FunctionComponent<GpsButtonProps> = ({
+  setLocation,
+  location,
+}) => {
   return (
     <button
       type="button"
@@ -94,7 +98,7 @@ const GpsButton: FunctionComponent<GpsButtonProps> = ({ setLocation }) => {
       css={findMeButtonStyle}
     >
       <GpsIcon css={gpsIconStyle} />
-      Find me!
+      {location.length === 0 ? "Find me!" : `You're at... ${location}!`}
     </button>
   );
 };

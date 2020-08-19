@@ -7,12 +7,19 @@ import { buttonStyle } from "../styles";
 import LocationInput from "./LocationInput";
 
 interface SearchFormProps {
+  /** Function to call to actually trigger the search */
   doSearch: () => void;
 
+  /** Current location value */
   location: string;
+
+  /** Function to call to update the location */
   setLocation: Dispatch<SetStateAction<string>>;
 
+  /** Current "apartment friendly" value */
   apartmentFriendly: boolean;
+
+  /** Function to call to update apartment friendly value */
   setApartmentFriendly: Dispatch<SetStateAction<boolean>>;
 }
 

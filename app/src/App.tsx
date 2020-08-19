@@ -1,6 +1,12 @@
 /** @jsx jsx */
 import { Global, jsx, css } from "@emotion/core";
-import { FunctionComponent, useState, Dispatch, SetStateAction } from "react";
+import {
+  FunctionComponent,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 import axios from "axios";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 
@@ -8,6 +14,7 @@ import { ServerResponse, Animal } from "./types";
 import Error from "./Error";
 import Header from "./Header";
 import PetGrid from "./PetGrid";
+import { storeStateInLocalStorage, getStateFromLocalStorage } from "./util";
 
 const globalStyles = css`
   html,
@@ -39,6 +46,10 @@ const fetchAnimals = async (
     alert("Please enter a location or find yourself with geolocation first!");
     return;
   }
+
+  // update what's stored in localStorage for the next time the user
+  // visits the site
+  storeStateInLocalStorage(location, apartmentFriendly);
 
   setLoading(true);
 
@@ -74,6 +85,22 @@ const App: FunctionComponent = () => {
 
   const [location, setLocation] = useState("");
   const [apartmentFriendly, setApartmentFriendly] = useState(true);
+
+  // on mount, get the user's location/preferences from localStorage
+  useEffect(() => {
+    const {
+      location: storedLocation,
+      apartmentFriendly: storedApartmentFriendly,
+    } = getStateFromLocalStorage();
+
+    if (storedLocation) {
+      setLocation(storedLocation);
+    }
+
+    if (storedApartmentFriendly !== null) {
+      setApartmentFriendly(storedApartmentFriendly);
+    }
+  }, []);
 
   const doFetchAnimals = () => {
     fetchAnimals(

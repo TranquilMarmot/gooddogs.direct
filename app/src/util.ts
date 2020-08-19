@@ -1,5 +1,39 @@
 import { useRef, useEffect, useCallback } from "react";
 
+/** Key used to store/retrieve the user's location from localStorage */
+export const LocationLocalStorageKey = "good_dog_form_location";
+
+/** Key used to store/retrieve the user's preference for apartment restrictions */
+export const ApartmentFilterLocalStorageKey =
+  "good_dog_form_apartment_only_filter";
+
+/**
+ * Store the given variables in localStorage
+ *
+ * @param location Location to store
+ * @param apartmentFriendly Whether or not apartment friendly filter has been applied
+ */
+export const storeStateInLocalStorage = (
+  location: string,
+  apartmentFriendly: boolean
+) => {
+  localStorage.setItem(LocationLocalStorageKey, location);
+  localStorage.setItem(ApartmentFilterLocalStorageKey, `${apartmentFriendly}`);
+};
+
+/** Get values stored in localStorage back out */
+export const getStateFromLocalStorage = () => {
+  const apartmentFriendly = localStorage.getItem(
+    ApartmentFilterLocalStorageKey
+  );
+
+  return {
+    location: localStorage.getItem(LocationLocalStorageKey),
+    apartmentFriendly:
+      apartmentFriendly === null ? null : apartmentFriendly === "true",
+  };
+};
+
 /**
  * Returns a random number that lies within the given range
  * @param min Minimum number in range

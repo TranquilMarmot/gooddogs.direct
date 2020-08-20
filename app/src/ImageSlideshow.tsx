@@ -24,42 +24,53 @@ const fadeInKeyframes = keyframes`
     }
 `;
 
-const fadeOutImageStyle = css`
-  ${baseImageStyle}
-
-  animation: ${fadeOutKeyframes} 2s ease;
-`;
-
-const fadeInImageStyle = css`
-  ${baseImageStyle}
-
-  animation: ${fadeInKeyframes} 2s ease;
-`;
-
 const containerStyle = css`
-  display: relative;
+  position: relative;
 `;
 
 interface ImageSlideshowProps {
-  images: string[];
+  /** Array of image `src`s to render */
+  children: string[];
+
+  /** Number of seconds to wait in between each image */
+  secondsBetweenImages?: number;
+
+  /** Optional styles to pass down to each <img /> */
   imageStyles?: SerializedStyles;
+
+  /** How wide images are */
+  imageWidthPx: number;
+
+  /** How tall images are */
+  imageHeightPx: number;
 }
 
+/**
+ * Get the style to use to fade in/out/hide an image
+ * @param currentImageIndex Index of current image being displayed
+ * @param thisImageIndex Index of the image to get styles for
+ * @param images Array of all images
+ */
 const getStyleForImage = (
   currentImageIndex: number,
   thisImageIndex: number,
-  images: string[]
+  images: string[],
+  secondsBetweenImages: number
 ): SerializedStyles => {
   if (currentImageIndex === thisImageIndex) {
     // if we're on this image, fade it out...
-    return fadeOutImageStyle;
+    return css`
+      animation: ${fadeOutKeyframes} ${secondsBetweenImages}s ease;
+    `;
   } else if (
     // while fading in the next one...
     currentImageIndex + 1 === thisImageIndex ||
     // if we're on the last one, we want to re-fade-in the first one
     (thisImageIndex === 0 && currentImageIndex === images.length - 1)
   ) {
-    return fadeInImageStyle;
+    return css`
+      animation: ${fadeInKeyframes} ${secondsBetweenImages}s ease;
+    `;
   } else {
     // otherwise, we don't show it at all!
     return css`
@@ -69,14 +80,22 @@ const getStyleForImage = (
 };
 
 const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
-  images,
+  children,
   imageStyles,
+  secondsBetweenImages = 3,
+  imageWidthPx,
+  imageHeightPx,
 }) => {
-  const [currentImage, setCurrentImage] = useState(0);
+  // this is the image currently being displayed; it is faded out when it is displayed
+  // (it will have been faded in before becoming the current index)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // timeout used to swap images
   const [currentTimeout, setCurrentTimeout] = useState<number | undefined>(
     undefined
   );
 
+  /** Sets a timeout to move on to the next image, looping around when it hits the end */
   const nextImageTimer = () => {
     if (currentTimeout) {
       window.clearTimeout(currentTimeout);
@@ -85,27 +104,47 @@ const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
 
     setCurrentTimeout(
       window.setTimeout(() => {
-        if (currentImage === images.length - 1) {
-          setCurrentImage(0);
+        if (currentImageIndex === children.length - 1) {
+          setCurrentImageIndex(0);
         } else {
-          setCurrentImage(currentImage + 1);
+          setCurrentImageIndex(currentImageIndex + 1);
         }
-      }, 2000)
+      }, secondsBetweenImages * 1000)
     );
   };
 
-  useEffect(nextImageTimer, [currentImage, images]);
+  // this useEffect will cause the timeout to be set every time `currentImageIndex` changes...
+  // the timeout itself then changes the image, causing this to run again
+  useEffect(nextImageTimer, [currentImageIndex, children]);
   useEffect(nextImageTimer, []);
 
   return (
-    <div css={containerStyle}>
-      {images.map((image, index) => (
+    <div
+      css={css`
+        ${containerStyle}
+        
+        width: ${imageWidthPx}px;
+        height: ${imageHeightPx}px;
+    `}
+    >
+      {/* We render all the images at once, but they each get different animations based on `currentImageIndex` */}
+      {children.map((image, index) => (
         <img
-          key={`slideshow-${index}`}
+          key={`slideshow-${image}`}
           src={image}
           css={css`
+            ${baseImageStyle}
             ${imageStyles}
-            ${getStyleForImage(currentImage, index, images)}
+
+            width: ${imageWidthPx}px;
+            height: ${imageHeightPx}px;
+
+            ${getStyleForImage(
+              currentImageIndex,
+              index,
+              children,
+              secondsBetweenImages
+            )}
           `}
         />
       ))}

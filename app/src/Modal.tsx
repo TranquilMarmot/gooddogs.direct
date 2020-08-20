@@ -8,6 +8,9 @@ import { buttonStyle } from "./styles";
 const modalStyles: ReactModal.Styles = {
   content: {
     background: "#bcd0c4",
+    maxWidth: "1500px",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   overlay: {
     backgroundColor: "rgba(104, 104, 104, 0.75)",
@@ -19,6 +22,17 @@ const modalContentStyle = css`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+`;
+
+const modalFooterStyle = css`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const closeButtonStyle = css`
+  ${buttonStyle}
+
+  width: 115px;
 `;
 
 interface ModalProps {
@@ -36,9 +50,11 @@ const Modal: FunctionComponent<PropsWithChildren<ModalProps>> = ({
       <div css={modalContentStyle}>
         <div>{children}</div>
 
-        <button css={buttonStyle} onClick={onClose}>
-          Close
-        </button>
+        <div css={modalFooterStyle}>
+          <button css={closeButtonStyle} onClick={onClose}>
+            Close
+          </button>
+        </div>
       </div>
     </ReactModal>
   );

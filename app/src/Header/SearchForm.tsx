@@ -5,6 +5,7 @@ import { FunctionComponent, Dispatch, SetStateAction } from "react";
 import Sparkles from "../Sparkles";
 import { buttonStyle } from "../styles";
 import LocationInput from "./LocationInput";
+import AboutApartmentFriendly from "./AboutApartmentFriendly";
 
 interface SearchFormProps {
   /** Function to call to actually trigger the search */
@@ -66,6 +67,7 @@ const SearchForm: FunctionComponent<SearchFormProps> = ({
         <label htmlFor="apartment-friendly-checkbox">
           Only show apartment friendly dogs
         </label>
+        <AboutApartmentFriendly />
       </div>
 
       <Sparkles active={false && location.trim().length > 0}>

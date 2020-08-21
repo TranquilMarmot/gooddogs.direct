@@ -84,7 +84,7 @@ const App: FunctionComponent = () => {
   const [error, setError] = useState(false);
 
   const [location, setLocation] = useState("");
-  const [apartmentFriendly, setApartmentFriendly] = useState(true);
+  const [apartmentFriendly, setApartmentFriendly] = useState(false);
 
   // on mount, get the user's location/preferences from localStorage
   useEffect(() => {

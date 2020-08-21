@@ -2,11 +2,14 @@ import { Animal } from "./types";
 
 /** Breeds to filter out */
 const breedFilters = [
-  "Pit Bull",
+  "Akita",
+  "Alaskan Malamute",
   "Chihuahua",
-  "Rottweiler",
+  "Cane Corso",
   "German Shepherd",
   "Great Dane",
+  "Pit Bull",
+  "Rottweiler",
   "Staffordshire Bull Terrier",
 ];
 

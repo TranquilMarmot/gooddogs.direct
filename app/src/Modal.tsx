@@ -12,6 +12,7 @@ const modalStyles: ReactModal.Styles = {
     marginLeft: "auto",
     marginRight: "auto",
     height: "550px",
+    width: "75%",
   },
   overlay: {
     backgroundColor: "rgba(104, 104, 104, 0.75)",

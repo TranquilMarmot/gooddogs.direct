@@ -11,9 +11,11 @@ const modalStyles: ReactModal.Styles = {
     maxWidth: "1500px",
     marginLeft: "auto",
     marginRight: "auto",
+    height: "550px",
   },
   overlay: {
     backgroundColor: "rgba(104, 104, 104, 0.75)",
+    overflow: "auto",
   },
 };
 
@@ -22,6 +24,8 @@ const modalContentStyle = css`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+
+  font-family: "Alata", sans-serif;
 `;
 
 const modalFooterStyle = css`

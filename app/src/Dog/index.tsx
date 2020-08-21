@@ -26,7 +26,7 @@ export const containerStyle = css`
   padding-bottom: 20px;
 
   text-decoration: none;
-  color: #333;
+  color: #111;
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -78,6 +78,8 @@ export const noImageContainerStyle = css`
 const descriptionStyle = css`
   margin-top: 15px;
   flex: 1;
+
+  font-family: "Alata", sans-serif;
 `;
 
 const Dog: FunctionComponent<DogProps> = ({ dog }) => {

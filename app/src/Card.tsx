@@ -4,7 +4,6 @@ import {
   FunctionComponent,
   useState,
   PropsWithChildren,
-  AnchorHTMLAttributes,
   HTMLAttributes,
 } from "react";
 

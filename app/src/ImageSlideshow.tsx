@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css, keyframes, SerializedStyles } from "@emotion/core";
-import { FunctionComponent, useState, useEffect } from "react";
+import { FunctionComponent } from "react";
 
 const baseImageStyle = css`
   position: absolute;
@@ -58,19 +58,8 @@ const getStyleForImage = (
   currentImageIndex: number,
   thisImageIndex: number,
   images: string[],
-  secondsBetweenImages: number,
-  isFirstRender: boolean
+  secondsBetweenImages: number
 ): SerializedStyles => {
-  if (isFirstRender) {
-    if (currentImageIndex === thisImageIndex) {
-      return css``;
-    } else {
-      return css`
-        display: none;
-      `;
-    }
-  }
-
   if (currentImageIndex === thisImageIndex) {
     // if we're on this image, fade it out...
     return css`
@@ -101,15 +90,6 @@ const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
   imageWidthPx,
   imageHeightPx,
 }) => {
-  const [isFirstRender, setIsFirstRender] = useState(true);
-  const [initialImageIndex] = useState(currentImageIndex);
-
-  useEffect(() => {
-    if (currentImageIndex !== initialImageIndex) {
-      setIsFirstRender(false);
-    }
-  }, [currentImageIndex, initialImageIndex]);
-
   return (
     <div
       css={css`
@@ -136,8 +116,7 @@ const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
               currentImageIndex,
               index,
               children,
-              secondsBetweenImages,
-              isFirstRender
+              secondsBetweenImages
             )}
           `}
         />

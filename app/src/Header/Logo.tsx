@@ -19,6 +19,10 @@ const headerStyle = css`
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  @media only screen and (max-width: 500px) {
+    text-align: center;
+  }
 `;
 
 const subHeaderStyle = css`
@@ -31,7 +35,10 @@ const subHeaderStyle = css`
 
 const rightAlignedSubheaderStyle = css`
   ${subHeaderStyle}
-  text-align: right;
+
+  @media only screen and (min-width: 500px) {
+    text-align: right;
+  }
 `;
 
 interface LogoProps {

@@ -57,6 +57,7 @@ const Phil: FunctionComponent = () => {
           autoPlay
           stopOnHover
           interval={5000}
+          showThumbs={false}
         >
           <div>
             <img

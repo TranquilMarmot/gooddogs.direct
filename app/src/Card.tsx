@@ -62,9 +62,9 @@ interface CardProps {
   containerStyle?: SerializedStyles;
 }
 
-const Card: FunctionComponent<PropsWithChildren<
-  CardProps & HTMLAttributes<HTMLDivElement>
->> = (props) => {
+type Props = PropsWithChildren<CardProps> & HTMLAttributes<HTMLDivElement>;
+
+const Card: FunctionComponent<Props> = (props) => {
   const { containerStyle, url, title, children, ...restOfProps } = props;
 
   // we store the rotation in the state so that if this card gets re-rendered it

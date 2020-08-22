@@ -65,9 +65,15 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
   return (
     <Card title={dog.name} url={dog.url}>
       {dog.photos && dog.photos.length !== 0 ? (
-        <Carousel css={carouselStyle} swipeable emulateTouch showStatus={false}>
+        <Carousel
+          css={carouselStyle}
+          swipeable
+          emulateTouch
+          showStatus={false}
+          showThumbs={false}
+        >
           {dog.photos.map((photo) => (
-            <div>
+            <div key={`dog-photo-${photo}`}>
               <img alt={`${dog.name}`} css={imageStyle} src={photo.large} />
             </div>
           ))}

@@ -32,6 +32,9 @@ interface ImageSlideshowProps {
   /** Array of image `src`s to render */
   children: string[];
 
+  /** Current image to display */
+  currentImageIndex: number;
+
   /** Number of seconds to wait in between each image */
   secondsBetweenImages?: number;
 
@@ -55,8 +58,19 @@ const getStyleForImage = (
   currentImageIndex: number,
   thisImageIndex: number,
   images: string[],
-  secondsBetweenImages: number
+  secondsBetweenImages: number,
+  isFirstRender: boolean
 ): SerializedStyles => {
+  if (isFirstRender) {
+    if (currentImageIndex === thisImageIndex) {
+      return css``;
+    } else {
+      return css`
+        display: none;
+      `;
+    }
+  }
+
   if (currentImageIndex === thisImageIndex) {
     // if we're on this image, fade it out...
     return css`
@@ -81,42 +95,20 @@ const getStyleForImage = (
 
 const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
   children,
-  imageStyles,
+  currentImageIndex,
   secondsBetweenImages = 3,
+  imageStyles,
   imageWidthPx,
   imageHeightPx,
 }) => {
-  // this is the image currently being displayed; it is faded out when it is displayed
-  // (it will have been faded in before becoming the current index)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [initialImageIndex] = useState(currentImageIndex);
 
-  // timeout used to swap images
-  const [currentTimeout, setCurrentTimeout] = useState<number | undefined>(
-    undefined
-  );
-
-  /** Sets a timeout to move on to the next image, looping around when it hits the end */
-  const nextImageTimer = () => {
-    if (currentTimeout) {
-      window.clearTimeout(currentTimeout);
-      setCurrentTimeout(undefined);
+  useEffect(() => {
+    if (currentImageIndex !== initialImageIndex) {
+      setIsFirstRender(false);
     }
-
-    setCurrentTimeout(
-      window.setTimeout(() => {
-        if (currentImageIndex === children.length - 1) {
-          setCurrentImageIndex(0);
-        } else {
-          setCurrentImageIndex(currentImageIndex + 1);
-        }
-      }, secondsBetweenImages * 1000)
-    );
-  };
-
-  // this useEffect will cause the timeout to be set every time `currentImageIndex` changes...
-  // the timeout itself then changes the image, causing this to run again
-  useEffect(nextImageTimer, [currentImageIndex, children]);
-  useEffect(nextImageTimer, []);
+  }, [currentImageIndex, initialImageIndex]);
 
   return (
     <div
@@ -144,7 +136,8 @@ const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
               currentImageIndex,
               index,
               children,
-              secondsBetweenImages
+              secondsBetweenImages,
+              isFirstRender
             )}
           `}
         />

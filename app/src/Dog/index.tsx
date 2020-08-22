@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import { Animal } from "../types";
 import Info from "./Info";
@@ -8,6 +8,7 @@ import GoodWith from "./GoodWith";
 
 import { ReactComponent as DogLookIcon } from "../images/dog_look.svg";
 import Card from "../Card";
+import ImageSlideshow from "../ImageSlideshow";
 
 const imageStyle = css`
   object-fit: cover;
@@ -42,17 +43,62 @@ const descriptionStyle = css`
   font-family: "Alata", sans-serif;
 `;
 
+const imageButtonContainer = css`
+  display: flex;
+`;
+
+const changeImageButtonStyle = css`
+  background: none;
+  border: 1px solid black;
+  border-radius: 15px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 interface DogProps {
   dog: Animal;
 }
 
 const Dog: FunctionComponent<DogProps> = ({ dog }) => {
-  const currentPhoto = dog.photos && dog.photos[0];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const incrementImageIndex = () => {
+    if (currentImageIndex === dog.photos.length - 1) {
+      setCurrentImageIndex(0);
+    } else {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  const decrementImageIndex = () => {
+    if (currentImageIndex === 0) {
+      setCurrentImageIndex(dog.photos.length - 1);
+    } else {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
 
   return (
     <Card title={dog.name} url={dog.url}>
-      {currentPhoto ? (
-        <img css={imageStyle} alt={`${dog.name}`} src={currentPhoto.large} />
+      {dog.photos && dog.photos.length !== 0 ? (
+        <div css={imageButtonContainer}>
+          <button css={changeImageButtonStyle} onClick={decrementImageIndex}>
+            &lt;
+          </button>
+          <ImageSlideshow
+            imageStyles={imageStyle}
+            currentImageIndex={currentImageIndex}
+            imageWidthPx={200}
+            imageHeightPx={200}
+          >
+            {dog.photos.map((photo) => photo.large)}
+          </ImageSlideshow>
+          <button css={changeImageButtonStyle} onClick={incrementImageIndex}>
+            &gt;
+          </button>
+        </div>
       ) : (
         <div css={noImageContainerStyle}>
           <DogLookIcon />

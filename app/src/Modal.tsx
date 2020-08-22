@@ -51,7 +51,11 @@ const Modal: FunctionComponent<PropsWithChildren<ModalProps>> = ({
   children,
 }) => {
   return (
-    <ReactModal style={modalStyles} isOpen={isOpen}>
+    <ReactModal
+      style={modalStyles}
+      isOpen={isOpen}
+      appElement={document.getElementById("app-container")!}
+    >
       <div css={modalContentStyle}>
         <div>{children}</div>
 

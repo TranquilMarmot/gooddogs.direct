@@ -1,6 +1,12 @@
 /** @jsx jsx */
 import { jsx, css, SerializedStyles } from "@emotion/core";
-import { FunctionComponent, useState, PropsWithChildren } from "react";
+import {
+  FunctionComponent,
+  useState,
+  PropsWithChildren,
+  AnchorHTMLAttributes,
+  HTMLAttributes,
+} from "react";
 
 import { getRandomRotation } from "./util";
 
@@ -52,12 +58,11 @@ interface CardProps {
   containerStyle?: SerializedStyles;
 }
 
-const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({
-  title,
-  url,
-  children,
-  containerStyle,
-}) => {
+const Card: FunctionComponent<PropsWithChildren<
+  CardProps & HTMLAttributes<HTMLDivElement>
+>> = (props) => {
+  const { containerStyle, url, title, children, ...restOfProps } = props;
+
   // we store the rotation in the state so that if this card gets re-rendered it
   // doesn't suddenly change its rotation
   const [containerRotateDeg] = useState(getRandomRotation(3, 7));
@@ -76,16 +81,10 @@ const Card: FunctionComponent<PropsWithChildren<CardProps>> = ({
   `;
 
   return (
-    <a
-      className="dog-card"
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      css={containerRotateStyle}
-    >
+    <div className="dog-card" css={containerRotateStyle} {...restOfProps}>
       <h2 css={nameStyle}>{title}</h2>
       {children}
-    </a>
+    </div>
   );
 };
 

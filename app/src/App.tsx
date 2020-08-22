@@ -122,7 +122,7 @@ const App: FunctionComponent = () => {
   });
 
   return (
-    <div ref={infiniteRef}>
+    <div ref={infiniteRef} id="app-container">
       <Global styles={globalStyles} />
       <Header
         doSearch={() => {

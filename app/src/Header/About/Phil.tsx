@@ -2,14 +2,14 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import ImageSlideshow from "../../ImageSlideshow";
-
 import Phil1 from "../../images/phil1.jpg";
 import Phil2 from "../../images/phil2.jpg";
 import Phil3 from "../../images/phil3.jpg";
 import Phil4 from "../../images/phil4.jpg";
 import Phil5 from "../../images/phil5.jpg";
 import Phil6 from "../../images/phil6.jpg";
+
+import TimedImageSlideshow from "../../TimedImageSlideshow";
 
 const slideshowImageStyle = css`
   border-radius: 15px;
@@ -37,7 +37,7 @@ const yearsStyle = css`
 const Phil: FunctionComponent = () => {
   return (
     <div css={philContainerStyle}>
-      <ImageSlideshow
+      <TimedImageSlideshow
         imageStyles={slideshowImageStyle}
         secondsBetweenImages={5}
         imageWidthPx={250}
@@ -49,7 +49,7 @@ const Phil: FunctionComponent = () => {
         {Phil4}
         {Phil5}
         {Phil6}
-      </ImageSlideshow>
+      </TimedImageSlideshow>
       <div css={dedicationStyle}>Dedicated to Phil</div>
       <div css={yearsStyle}>2004 - 2019</div>
     </div>

@@ -1,20 +1,14 @@
 /** @jsx jsx */
 import { jsx, css, keyframes } from "@emotion/core";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 
 import { ReactComponent as DogBoneIcon } from "../images/dog_bone.svg";
-import {
-  containerStyle as dogCardContainerStyle,
-  noImageContainerStyle,
-  nameStyle,
-} from "../Dog";
-import { getRandomRotation } from "../util";
+import { noImageContainerStyle } from "../Dog";
+import Card from "../Card";
 
 const loadingCardStyle = css`
-  ${dogCardContainerStyle}
-
   /** Note: this will probably have to be adjusted as card sizes change! */
-    min-height: 500px;
+  min-height: 500px;
 `;
 
 const loadingGradientAnimation = keyframes`
@@ -39,29 +33,12 @@ const loadingImageStyle = css`
   animation: ${loadingGradientAnimation} 2s ease infinite;
 `;
 
-const LoadingCard: FunctionComponent = () => {
-  const [containerRotateDeg] = useState(getRandomRotation(3, 7));
-  const [containerHoverRotateDeg] = useState(
-    containerRotateDeg - containerRotateDeg / 2.5
-  );
-
-  const containerRotateStyle = css`
-      ${loadingCardStyle}
-      transform: rotate(${containerRotateDeg}deg);
-  
-      &:hover {
-        transform: rotate(${containerHoverRotateDeg}deg);
-      }
-    `;
-
-  return (
-    <div className="dog-card" css={containerRotateStyle}>
-      <h2 css={nameStyle}>Finding good dogs...</h2>
-      <div css={loadingImageStyle}>
-        <DogBoneIcon />
-      </div>
+const LoadingCard: FunctionComponent = () => (
+  <Card title="Finding good dogs..." containerStyle={loadingCardStyle}>
+    <div css={loadingImageStyle}>
+      <DogBoneIcon />
     </div>
-  );
-};
+  </Card>
+);
 
 export default LoadingCard;

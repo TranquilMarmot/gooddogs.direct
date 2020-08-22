@@ -130,6 +130,7 @@ const ImageSlideshow: FunctionComponent<ImageSlideshowProps> = ({
       {/* We render all the images at once, but they each get different animations based on `currentImageIndex` */}
       {children.map((image, index) => (
         <img
+          alt=""
           key={`slideshow-${image}`}
           src={image}
           css={css`

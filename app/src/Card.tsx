@@ -36,7 +36,7 @@ const baseContainerStyle = css`
   }
 `;
 
-export const nameStyle = css`
+const nameStyle = css`
   text-align: center;
   font-family: "Pangolin", cursive;
 
@@ -44,6 +44,11 @@ export const nameStyle = css`
 
   border-bottom: 1px solid grey;
   padding-bottom: 10px;
+`;
+
+const headerLinkStyle = css`
+  color: #111;
+  text-decoration: none;
 `;
 
 interface CardProps {
@@ -81,7 +86,16 @@ const Card: FunctionComponent<PropsWithChildren<
 
   return (
     <div className="dog-card" css={containerRotateStyle} {...restOfProps}>
-      <h2 css={nameStyle}>{title}</h2>
+      <h2 css={nameStyle}>
+        <a
+          css={headerLinkStyle}
+          href={url}
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          {title}
+        </a>
+      </h2>
       {children}
     </div>
   );

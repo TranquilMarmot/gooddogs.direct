@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import { Animal } from "../types";
 import Info from "./Info";
@@ -14,9 +16,14 @@ const imageStyle = css`
   object-fit: cover;
   width: 200px;
   height: 200px;
+`;
 
+const carouselStyle = css`
   border-radius: 50%;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  width: 200px;
+  height: 200px;
 `;
 
 /** Note: this is also used in LoadingCard */
@@ -83,22 +90,29 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
   return (
     <Card title={dog.name} url={dog.url}>
       {dog.photos && dog.photos.length !== 0 ? (
-        <div css={imageButtonContainer}>
-          <button css={changeImageButtonStyle} onClick={decrementImageIndex}>
-            &lt;
-          </button>
-          <ImageSlideshow
-            imageStyles={imageStyle}
-            currentImageIndex={currentImageIndex}
-            imageWidthPx={200}
-            imageHeightPx={200}
-          >
-            {dog.photos.map((photo) => photo.large)}
-          </ImageSlideshow>
-          <button css={changeImageButtonStyle} onClick={incrementImageIndex}>
-            &gt;
-          </button>
-        </div>
+        // <div css={imageButtonContainer}>
+        //   <button css={changeImageButtonStyle} onClick={decrementImageIndex}>
+        //     &lt;
+        //   </button>
+        //   <ImageSlideshow
+        //     imageStyles={imageStyle}
+        //     currentImageIndex={currentImageIndex}
+        //     imageWidthPx={200}
+        //     imageHeightPx={200}
+        //   >
+        //     {dog.photos.map((photo) => photo.large)}
+        //   </ImageSlideshow>
+        //   <button css={changeImageButtonStyle} onClick={incrementImageIndex}>
+        //     &gt;
+        //   </button>
+        // </div>
+        <Carousel css={carouselStyle} swipeable emulateTouch showStatus={false}>
+          {dog.photos.map((photo) => (
+            <div>
+              <img css={imageStyle} src={photo.large} />
+            </div>
+          ))}
+        </Carousel>
       ) : (
         <div css={noImageContainerStyle}>
           <DogLookIcon />

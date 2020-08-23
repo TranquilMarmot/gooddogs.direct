@@ -71,6 +71,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
           emulateTouch
           showStatus={false}
           showThumbs={false}
+          infiniteLoop
         >
           {dog.photos.map((photo) => (
             <div key={`dog-photo-${photo}`}>

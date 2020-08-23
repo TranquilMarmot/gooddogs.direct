@@ -37,6 +37,7 @@ const philContainerStyle = css`
 
 const dedicationStyle = css`
   font-family: "Lobster", cursive;
+  text-align: center;
 
   font-size: 40px;
   margin-top: 10px;

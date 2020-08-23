@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { FunctionComponent, PropsWithChildren } from "react";
+import { jsx, css, Global } from "@emotion/core";
+import { FunctionComponent, PropsWithChildren, Fragment } from "react";
 
 import ReactModal from "react-modal";
 import { buttonStyle } from "./styles";
@@ -20,6 +20,15 @@ const modalStyles: ReactModal.Styles = {
   },
 };
 
+const modalGlobalStyles = css`
+  .ReactModal__Content {
+    @media only screen and (max-width: 430px) {
+      top: 0 !important;
+      left: 0 !important;
+      width: 86% !important;
+    }
+  }
+`;
 const modalContentStyle = css`
   display: flex;
   flex-direction: column;
@@ -51,21 +60,25 @@ const Modal: FunctionComponent<PropsWithChildren<ModalProps>> = ({
   children,
 }) => {
   return (
-    <ReactModal
-      style={modalStyles}
-      isOpen={isOpen}
-      appElement={document.getElementById("app-container")!}
-    >
-      <div css={modalContentStyle}>
-        <div>{children}</div>
+    <Fragment>
+      <Global styles={modalGlobalStyles} />
+      <ReactModal
+        style={modalStyles}
+        isOpen={isOpen}
+        appElement={document.getElementById("app-container")!}
+        shouldCloseOnEsc
+      >
+        <div css={modalContentStyle}>
+          <div>{children}</div>
 
-        <div css={modalFooterStyle}>
-          <button css={closeButtonStyle} onClick={onClose}>
-            Close
-          </button>
+          <div css={modalFooterStyle}>
+            <button css={closeButtonStyle} onClick={onClose}>
+              Close
+            </button>
+          </div>
         </div>
-      </div>
-    </ReactModal>
+      </ReactModal>
+    </Fragment>
   );
 };
 

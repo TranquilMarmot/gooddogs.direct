@@ -42,6 +42,10 @@ const infoStyle = css`
   justify-content: center;
 
   padding-top: 35px;
+
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 
 const About: FunctionComponent = () => {

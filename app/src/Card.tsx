@@ -34,6 +34,11 @@ const baseContainerStyle = css`
     box-shadow: 0 14px 18px 0 rgba(0, 0, 0, 0.2),
       0 16px 40px 0 rgba(0, 0, 0, 0.19);
   }
+
+  @media only screen and (max-width: 500px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 const nameStyle = css`

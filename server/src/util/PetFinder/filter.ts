@@ -17,6 +17,7 @@ const breedFilters = [
 const descriptionFilters = [
   "fenced yard",
   "bonded pair",
+  "bonded with",
   "no apartment",
   "not suitable for an apartment",
   "requires another dog",

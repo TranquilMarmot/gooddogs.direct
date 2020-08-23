@@ -33,6 +33,11 @@ const formStyle = css`
   width: 400px;
 
   margin-left: 10px;
+
+  @media only screen and (max-width: 500px) {
+    margin-left: 0;
+    width: 275px;
+  }
 `;
 
 const submitButtonStyle = css`

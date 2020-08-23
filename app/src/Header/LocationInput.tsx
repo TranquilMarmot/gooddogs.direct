@@ -1,9 +1,11 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState, Dispatch, SetStateAction } from "react";
+import { FunctionComponent, useState } from "react";
 
 import GpsButton from "./GpsButton";
 import { buttonStyle } from "../styles";
+import { useAnimalState } from "../State/Context";
+import { setLocation } from "../State/Actions";
 
 const locationContainerStyle = css`
   display: flex;
@@ -28,20 +30,15 @@ const swapLocationButtonStyle = css`
   margin-left: 10px;
 `;
 
-interface LocationInputProps {
-  location: string;
-  setLocation: Dispatch<SetStateAction<string>>;
-}
-
-const LocationInput: FunctionComponent<LocationInputProps> = ({
-  location,
-  setLocation,
-}) => {
+const LocationInput: FunctionComponent = () => {
   const [showFindMe, setShowFindMe] = useState(true);
+
+  const [state, dispatch] = useAnimalState();
+  const { location } = state;
 
   const swapInputs = () => {
     setShowFindMe(!showFindMe);
-    setLocation("");
+    dispatch(setLocation(""));
   };
 
   return (
@@ -55,7 +52,7 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({
               css={locationInputStyle}
               id="location-input"
               placeholder="City, State or Zip Code"
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) => dispatch(setLocation(e.target.value))}
               value={location}
             />
           </div>
@@ -71,7 +68,7 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({
       )}
       {showFindMe && (
         <div css={locationContainerStyle}>
-          <GpsButton setLocation={setLocation} location={location} />
+          <GpsButton />
           or
           <button
             css={swapLocationButtonStyle}

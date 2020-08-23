@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, Dispatch, SetStateAction } from "react";
+import { FunctionComponent } from "react";
 
 import SearchForm from "./SearchForm";
 import About from "./About";
@@ -30,30 +30,12 @@ const containerStyle = css`
 
 interface HeaderProps {
   doSearch: () => void;
-
-  location: string;
-  setLocation: Dispatch<SetStateAction<string>>;
-
-  apartmentFriendly: boolean;
-  setApartmentFriendly: Dispatch<SetStateAction<boolean>>;
 }
 
-const Header: FunctionComponent<HeaderProps> = ({
-  doSearch,
-  location,
-  setLocation,
-  apartmentFriendly,
-  setApartmentFriendly,
-}) => {
+const Header: FunctionComponent<HeaderProps> = ({ doSearch }) => {
   return (
     <div css={containerStyle}>
-      <SearchForm
-        doSearch={doSearch}
-        location={location}
-        setLocation={setLocation}
-        apartmentFriendly={apartmentFriendly}
-        setApartmentFriendly={setApartmentFriendly}
-      />
+      <SearchForm doSearch={doSearch} />
       <div css={headerContainerStyle}>
         <Logo />
         <About />

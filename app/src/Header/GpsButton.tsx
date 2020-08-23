@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, Dispatch, SetStateAction } from "react";
+import { FunctionComponent } from "react";
 import axios from "axios";
 
 import { ReactComponent as GpsIcon } from "../images/gps.svg";
 import { buttonStyle } from "../styles";
+import { useAnimalState } from "../State/Context";
+import { setLocation } from "../State/Actions";
 
 const findMeButtonStyle = css`
   ${buttonStyle}
@@ -27,7 +29,7 @@ const gpsIconStyle = css`
  *
  * @param setLocation Callback to call to set the user's location
  */
-const getGpsLocation = (setLocation: Dispatch<SetStateAction<string>>) => {
+const getGpsLocation = (setLocation: (location: string) => void) => {
   // TODO save this to localstorage so the user doesn't have to enter it every time
   const success = async (position: Position) => {
     var crd = position.coords;
@@ -82,19 +84,16 @@ const getZipCode = async (latitude: number, longitude: number) => {
   return zip || `${latitude},${longitude}`;
 };
 
-interface GpsButtonProps {
-  setLocation: Dispatch<SetStateAction<string>>;
-  location: string;
-}
+const GpsButton: FunctionComponent = () => {
+  const [state, dispatch] = useAnimalState();
+  const { location } = state;
 
-const GpsButton: FunctionComponent<GpsButtonProps> = ({
-  setLocation,
-  location,
-}) => {
   return (
     <button
       type="button"
-      onClick={() => getGpsLocation(setLocation)}
+      onClick={() =>
+        getGpsLocation((location: string) => dispatch(setLocation(location)))
+      }
       css={findMeButtonStyle}
     >
       <GpsIcon css={gpsIconStyle} />

@@ -1,3 +1,8 @@
+export interface AnimalState {
+  location: string;
+  apartmentFriendly: boolean;
+}
+
 export interface ServerResponse {
   animals: Animal[];
   pagination: {

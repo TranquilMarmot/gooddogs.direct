@@ -1,27 +1,17 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, Dispatch, SetStateAction } from "react";
+import { FunctionComponent } from "react";
 
 import Sparkles from "../Sparkles";
 import { buttonStyle } from "../styles";
 import LocationInput from "./LocationInput";
 import AboutApartmentFriendly from "./AboutApartmentFriendly";
+import { useAnimalState } from "../State/Context";
+import { setApartmentFriendly } from "../State/Actions";
 
 interface SearchFormProps {
   /** Function to call to actually trigger the search */
   doSearch: () => void;
-
-  /** Current location value */
-  location: string;
-
-  /** Function to call to update the location */
-  setLocation: Dispatch<SetStateAction<string>>;
-
-  /** Current "apartment friendly" value */
-  apartmentFriendly: boolean;
-
-  /** Function to call to update apartment friendly value */
-  setApartmentFriendly: Dispatch<SetStateAction<boolean>>;
 }
 
 const formStyle = css`
@@ -45,13 +35,10 @@ const submitButtonStyle = css`
   width: 100%;
 `;
 
-const SearchForm: FunctionComponent<SearchFormProps> = ({
-  doSearch,
-  location,
-  setLocation,
-  apartmentFriendly,
-  setApartmentFriendly,
-}) => {
+const SearchForm: FunctionComponent<SearchFormProps> = ({ doSearch }) => {
+  const [state, dispatch] = useAnimalState();
+  const { location, apartmentFriendly } = state;
+
   return (
     <form
       css={formStyle}
@@ -60,14 +47,14 @@ const SearchForm: FunctionComponent<SearchFormProps> = ({
         doSearch();
       }}
     >
-      <LocationInput location={location} setLocation={setLocation} />
+      <LocationInput />
 
       <div>
         <input
           type="checkbox"
           id="apartment-friendly-checkbox"
           checked={apartmentFriendly}
-          onChange={(e) => setApartmentFriendly(e.target.checked)}
+          onChange={(e) => dispatch(setApartmentFriendly(e.target.checked))}
         />
         <label htmlFor="apartment-friendly-checkbox">
           Only show apartment friendly dogs

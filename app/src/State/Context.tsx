@@ -14,6 +14,10 @@ import { getStateFromLocalStorage } from "../util";
 export const defaultState: AnimalState = {
   location: "",
   apartmentFriendly: false,
+  pets: [],
+  loading: false,
+  currentPage: 1,
+  error: false,
 };
 
 export const AnimalStateContext = createContext<

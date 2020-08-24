@@ -1,6 +1,10 @@
 export interface AnimalState {
   location: string;
   apartmentFriendly: boolean;
+  pets: Animal[];
+  loading: boolean;
+  currentPage: number;
+  error: boolean;
 }
 
 export interface ServerResponse {

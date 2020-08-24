@@ -3,13 +3,10 @@ import ReactDOM from "react-dom";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { AnimalProvider } from "./State/Context";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AnimalProvider>
-      <App />
-    </AnimalProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

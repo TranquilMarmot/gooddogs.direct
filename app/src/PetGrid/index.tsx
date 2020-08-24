@@ -1,8 +1,12 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, Fragment } from "react";
-import { Animal } from "../types";
+import useInfiniteScroll from "react-infinite-scroll-hook";
+
 import Dog from "../Dog";
+import { useAnimalState } from "../State/Context";
+import { fetchAnimals } from "../util";
+
 import LoadingCard from "./LoadingCard";
 
 const petContainer = css`
@@ -21,14 +25,19 @@ const petContainer = css`
   }
 `;
 
-interface PetGridProps {
-  pets: Animal[];
-  loading: boolean;
-}
+const PetGrid: FunctionComponent = () => {
+  const [state, dispatch] = useAnimalState();
 
-const PetGrid: FunctionComponent<PetGridProps> = ({ pets, loading }) => {
+  const { loading, pets } = state;
+
+  const infiniteRef = useInfiniteScroll<HTMLDivElement>({
+    loading,
+    hasNextPage: pets.length !== 0,
+    onLoadMore: () => fetchAnimals(dispatch, state),
+  });
+
   return (
-    <div css={petContainer}>
+    <div ref={infiniteRef} css={petContainer}>
       {pets.map((dog) => (
         <Dog key={`dog-${dog.id}`} dog={dog} />
       ))}

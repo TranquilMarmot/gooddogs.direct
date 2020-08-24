@@ -8,11 +8,7 @@ import LocationInput from "./LocationInput";
 import AboutApartmentFriendly from "./AboutApartmentFriendly";
 import { useAnimalState } from "../State/Context";
 import { setApartmentFriendly } from "../State/Actions";
-
-interface SearchFormProps {
-  /** Function to call to actually trigger the search */
-  doSearch: () => void;
-}
+import { fetchAnimals } from "../util";
 
 const formStyle = css`
   display: flex;
@@ -35,7 +31,7 @@ const submitButtonStyle = css`
   width: 100%;
 `;
 
-const SearchForm: FunctionComponent<SearchFormProps> = ({ doSearch }) => {
+const SearchForm: FunctionComponent = () => {
   const [state, dispatch] = useAnimalState();
   const { location, apartmentFriendly } = state;
 
@@ -44,7 +40,7 @@ const SearchForm: FunctionComponent<SearchFormProps> = ({ doSearch }) => {
       css={formStyle}
       onSubmit={(e) => {
         e.preventDefault();
-        doSearch();
+        fetchAnimals(dispatch, state);
       }}
     >
       <LocationInput />

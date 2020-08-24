@@ -1,15 +1,11 @@
 /** @jsx jsx */
 import { Global, jsx, css } from "@emotion/core";
-import { FunctionComponent, useState, Dispatch, SetStateAction } from "react";
-import axios from "axios";
-import useInfiniteScroll from "react-infinite-scroll-hook";
+import { FunctionComponent } from "react";
 
-import { ServerResponse, Animal } from "./types";
+import { AnimalProvider, useAnimalState } from "./State/Context";
 import Error from "./Error";
 import Header from "./Header";
 import PetGrid from "./PetGrid";
-import { storeStateInLocalStorage } from "./util";
-import { useAnimalState } from "./State/Context";
 
 const globalStyles = css`
   html,
@@ -27,90 +23,18 @@ const globalStyles = css`
   }
 `;
 
-const fetchAnimals = async (
-  location: string,
-  apartmentFriendly: boolean,
-  currentPets: Animal[],
-  page: number,
-  setPets: Dispatch<SetStateAction<Animal[]>>,
-  setLoading: Dispatch<SetStateAction<boolean>>,
-  setCurrentPage: Dispatch<SetStateAction<number>>,
-  setError: Dispatch<SetStateAction<boolean>>
-) => {
-  if (location.trim().length <= 0) {
-    alert("Please enter a location or find yourself with geolocation first!");
-    return;
-  }
-
-  // update what's stored in localStorage for the next time the user
-  // visits the site
-  storeStateInLocalStorage(location, apartmentFriendly);
-
-  setLoading(true);
-
-  try {
-    const response = (
-      await axios.get<ServerResponse>("/dogs", {
-        params: {
-          location,
-          apartmentFriendly,
-          page: page,
-        },
-      })
-    ).data;
-
-    setPets(currentPets.concat(response.animals));
-    setLoading(false);
-    setCurrentPage(response.pagination.nextPage);
-  } catch (error) {
-    console.error("Error fetching dogs", error);
-
-    setError(true);
-    setPets([]);
-    setLoading(false);
-    setCurrentPage(1);
-  }
-};
-
 const App: FunctionComponent = () => {
-  const [pets, setPets] = useState<Animal[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [error, setError] = useState(false);
-
   const [state] = useAnimalState();
 
-  const { location, apartmentFriendly } = state;
-
-  const doFetchAnimals = () => {
-    fetchAnimals(
-      location,
-      apartmentFriendly,
-      pets,
-      currentPage,
-      setPets,
-      setLoading,
-      setCurrentPage,
-      setError
-    );
-  };
-
-  const infiniteRef = useInfiniteScroll<HTMLDivElement>({
-    loading,
-    hasNextPage: pets.length > 0,
-    onLoadMore: doFetchAnimals,
-  });
+  const { error } = state;
 
   return (
-    <div ref={infiniteRef} id="app-container">
+    <div id="app-container">
       <Global styles={globalStyles} />
-      <Header
-        doSearch={() => {
-          setPets([]);
-          doFetchAnimals();
-        }}
-      />
-      {pets && <PetGrid pets={pets} loading={loading} />}
+      <AnimalProvider>
+        <Header />
+        <PetGrid />
+      </AnimalProvider>
       {error && <Error />}
     </div>
   );

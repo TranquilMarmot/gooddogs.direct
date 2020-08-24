@@ -28,14 +28,10 @@ const containerStyle = css`
   }
 `;
 
-interface HeaderProps {
-  doSearch: () => void;
-}
-
-const Header: FunctionComponent<HeaderProps> = ({ doSearch }) => {
+const Header: FunctionComponent = () => {
   return (
     <div css={containerStyle}>
-      <SearchForm doSearch={doSearch} />
+      <SearchForm />
       <div css={headerContainerStyle}>
         <Logo />
         <About />

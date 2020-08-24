@@ -1,6 +1,11 @@
+import { ServerResponse } from "../types";
+
 export enum Actions {
   SetLocation = "SetLocation",
   SetApartmentFriendly = "SetApartmentFriendly",
+  SetLoading = "SetLoading",
+  OnServerResponse = "OnServerResponse",
+  OnServerError = "OnServerError",
 }
 
 interface SetLocationAction {
@@ -33,4 +38,41 @@ export const setApartmentFriendly = (
   },
 });
 
-export type ActionTypes = SetLocationAction | SetApartmentFriendlyAction;
+interface SetLoadingAction {
+  type: Actions.SetLoading;
+}
+
+export const setLoading = (): SetLoadingAction => ({
+  type: Actions.SetLoading,
+});
+
+interface OnServerResponseAction {
+  type: Actions.OnServerResponse;
+  payload: {
+    response: ServerResponse;
+  };
+}
+
+export const onServerResponse = (
+  response: ServerResponse
+): OnServerResponseAction => ({
+  type: Actions.OnServerResponse,
+  payload: {
+    response,
+  },
+});
+
+interface OnServerErrorAction {
+  type: Actions.OnServerError;
+}
+
+export const OnServerError = (): OnServerErrorAction => ({
+  type: Actions.OnServerError,
+});
+
+export type ActionTypes =
+  | SetLocationAction
+  | SetApartmentFriendlyAction
+  | SetLoadingAction
+  | OnServerResponseAction
+  | OnServerErrorAction;

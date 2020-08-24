@@ -1,4 +1,13 @@
 import { useRef, useEffect, useCallback } from "react";
+import axios from "axios";
+
+import {
+  ActionTypes,
+  setLoading,
+  onServerResponse,
+  OnServerError,
+} from "./State/Actions";
+import { ServerResponse, AnimalState } from "./types";
 
 /** Key used to store/retrieve the user's location from localStorage */
 export const LocationLocalStorageKey = "good_dog_form_location";
@@ -51,6 +60,40 @@ export const getRandomRotation = (min: number, max: number): number => {
   const rotate = getRandomNumberInRange(min, max);
 
   return Math.random() >= 0.5 ? rotate : -rotate;
+};
+
+export const fetchAnimals = async (
+  dispatch: (action: ActionTypes) => void,
+  { location, apartmentFriendly, currentPage }: AnimalState
+) => {
+  if (location.trim().length <= 0) {
+    alert("Please enter a location or find yourself with geolocation first!");
+    return;
+  }
+
+  // update what's stored in localStorage for the next time the user
+  // visits the site
+  storeStateInLocalStorage(location, apartmentFriendly);
+
+  dispatch(setLoading());
+
+  try {
+    const response = (
+      await axios.get<ServerResponse>("/dogs", {
+        params: {
+          location,
+          apartmentFriendly,
+          page: currentPage,
+        },
+      })
+    ).data;
+
+    dispatch(onServerResponse(response));
+  } catch (error) {
+    console.error("Error fetching dogs", error);
+
+    dispatch(OnServerError());
+  }
 };
 
 /**

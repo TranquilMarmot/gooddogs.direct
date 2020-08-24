@@ -2,10 +2,11 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState } from "react";
 
+import { buttonStyle } from "../../styles";
+import { useAnimalState } from "../../State/Context";
+import { setLocation } from "../../State/Actions";
+
 import GpsButton from "./GpsButton";
-import { buttonStyle } from "../styles";
-import { useAnimalState } from "../State/Context";
-import { setLocation } from "../State/Actions";
 
 const locationContainerStyle = css`
   display: flex;

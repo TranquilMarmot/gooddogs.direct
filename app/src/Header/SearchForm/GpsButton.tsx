@@ -3,10 +3,11 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 import axios from "axios";
 
-import { ReactComponent as GpsIcon } from "../images/gps.svg";
-import { buttonStyle } from "../styles";
-import { useAnimalState } from "../State/Context";
-import { setLocation } from "../State/Actions";
+import { ReactComponent as GpsIcon } from "../../images/gps.svg";
+
+import { buttonStyle } from "../../styles";
+import { useAnimalState } from "../../State/Context";
+import { setLocation } from "../../State/Actions";
 
 const findMeButtonStyle = css`
   ${buttonStyle}

@@ -2,13 +2,14 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import Sparkles from "../Sparkles";
-import { buttonStyle } from "../styles";
+import { fetchAnimals } from "../../util";
+import { buttonStyle } from "../../styles";
+import Sparkles from "../../Sparkles";
+import { useAnimalState } from "../../State/Context";
+import { setApartmentFriendly } from "../../State/Actions";
+
 import LocationInput from "./LocationInput";
 import AboutApartmentFriendly from "./AboutApartmentFriendly";
-import { useAnimalState } from "../State/Context";
-import { setApartmentFriendly } from "../State/Actions";
-import { fetchAnimals } from "../util";
 
 const formStyle = css`
   display: flex;

@@ -2,8 +2,9 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState, Fragment } from "react";
 
-import Modal from "../Modal";
-import { ReactComponent as QuestionIcon } from "../images/question.svg";
+import { ReactComponent as QuestionIcon } from "../../images/question.svg";
+
+import Modal from "../../Modal";
 
 const questionIconStyle = css`
   width: 15px;

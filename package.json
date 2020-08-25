@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd app && npm install && cd ../server && npm install",
     "start:server": "cd server && npm start",
     "start:app": "cd app && npm start",
     "start": "concurrently --names \"srv,app\" --prefix \"{name}-{time}\" --prefix-colors \"blue,cyan,magenta,green\"  \"npm:start:server\" \"npm:start:app\""

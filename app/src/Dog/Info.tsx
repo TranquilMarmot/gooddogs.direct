@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import { Gender } from "../types";
 
@@ -20,7 +20,6 @@ const footerStyle = css`
   justify-content: space-between;
 
   width: 100%;
-  margin-top: 20px;
 `;
 
 const distanceContainerStyle = css`
@@ -39,7 +38,7 @@ const sexIconStyle = css`
 `;
 
 const Info: FunctionComponent<InfoProps> = ({ distance, gender }) => {
-  const sexRotateDeg = getRandomRotation(2, 5);
+  const [sexRotateDeg] = useState(getRandomRotation(2, 5));
 
   const sexRotateStyle = css`
     ${sexIconStyle}

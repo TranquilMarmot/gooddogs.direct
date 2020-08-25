@@ -4,7 +4,6 @@ import { Animal } from "./types";
 const breedFilters = [
   "Akita",
   "Alaskan Malamute",
-  "Chihuahua",
   "Cane Corso",
   "German Shepherd",
   "Great Dane",

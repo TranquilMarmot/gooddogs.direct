@@ -52,6 +52,13 @@ export const noImageContainerStyle = css`
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
+const breedStyle = css`
+  text-align: center;
+  margin-top: 10px;
+
+  font-family: "Alata", sans-serif;
+`;
+
 const descriptionStyle = css`
   margin-top: 15px;
   flex: 1;
@@ -111,6 +118,10 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
         </div>
       )}
 
+      <div css={breedStyle}>
+        {dog.breeds.primary}
+        {dog.breeds.secondary ? ` / ${dog.breeds.secondary}` : ""}
+      </div>
       <Info distance={dog.distance} gender={dog.gender} />
       <div css={descriptionStyle}>
         {dog.description && dog.description.length > 0

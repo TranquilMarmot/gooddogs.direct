@@ -54,6 +54,9 @@ const nameStyle = css`
 const headerLinkStyle = css`
   color: #111;
   text-decoration: none;
+
+  display: inline-block;
+  width: 100%;
 `;
 
 interface CardProps {

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
+import { decode } from "he";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -9,6 +10,7 @@ import Info from "./Info";
 import GoodWith from "./GoodWith";
 
 import { ReactComponent as DogLookIcon } from "../images/dog_look.svg";
+import { ReactComponent as ExternalIcon } from "../images/external.svg";
 import Card from "../Card";
 
 const imageStyle = css`
@@ -57,6 +59,29 @@ const descriptionStyle = css`
   font-family: "Alata", sans-serif;
 `;
 
+const linkStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  padding-top: 3px;
+  padding-bottom: 3px;
+
+  color: #111;
+
+  & :visited {
+    color: #111;
+  }
+`;
+
+const externalIconStyle = css`
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+`;
+
 interface DogProps {
   dog: Animal;
 }
@@ -89,10 +114,22 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
       <Info distance={dog.distance} gender={dog.gender} />
       <div css={descriptionStyle}>
         {dog.description && dog.description.length > 0
-          ? dog.description
+          ? // yes, we have to _double_ decode here...
+            // i.e. apostrophes are encoded as &#39;
+            // but the PetFinder API returns &amp;#39; 🤦‍♂️
+            decode(decode(dog.description))
           : "(no description)"}
       </div>
       <GoodWith environment={dog.environment} />
+      <a
+        css={linkStyle}
+        href={dog.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View on PetFinder
+        <ExternalIcon css={externalIconStyle} />
+      </a>
     </Card>
   );
 };

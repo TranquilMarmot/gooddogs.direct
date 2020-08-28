@@ -18,7 +18,8 @@
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "graphql-request": "^3.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",

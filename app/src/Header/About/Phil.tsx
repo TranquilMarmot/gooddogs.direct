@@ -59,6 +59,7 @@ const Phil: FunctionComponent = () => {
           stopOnHover
           interval={5000}
           showThumbs={false}
+          infiniteLoop
         >
           <div>
             <img

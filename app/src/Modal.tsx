@@ -11,7 +11,7 @@ const modalStyles: ReactModal.Styles = {
     maxWidth: "1500px",
     marginLeft: "auto",
     marginRight: "auto",
-    height: "600px",
+    height: "645px",
     width: "75%",
   },
   overlay: {
@@ -25,7 +25,8 @@ const modalGlobalStyles = css`
     @media only screen and (max-width: 430px) {
       top: 0 !important;
       left: 0 !important;
-      width: 86% !important;
+      width: 90% !important;
+      height: 100% !important;
     }
   }
 `;

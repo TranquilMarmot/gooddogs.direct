@@ -1,4 +1,16 @@
-import React, { FunctionComponent } from "react";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
+import { FunctionComponent } from "react";
+
+import { ReactComponent as CoffeeIcon } from "../../images/dog_coffee.svg";
+
+const coffeeStyle = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+  margin-top: 25px;
+`;
 
 const Info: FunctionComponent = () => {
   return (
@@ -75,6 +87,15 @@ const Info: FunctionComponent = () => {
           for an actually usable reverse geocoding API
         </li>
       </ul>
+      <a
+        css={coffeeStyle}
+        href="https://ko-fi.com/tranquilmarmot"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <CoffeeIcon />
+        Like this site? Buy me a coffee!
+      </a>
     </div>
   );
 };

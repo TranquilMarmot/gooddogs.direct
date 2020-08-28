@@ -32,6 +32,10 @@ const submitButtonStyle = css`
   width: 100%;
 `;
 
+const apartmentFriendlyCheckboxContainerStyle = css`
+  display: flex;
+`;
+
 const SearchForm: FunctionComponent = () => {
   const [state, dispatch] = useAnimalState();
   const { location, apartmentFriendly } = state;
@@ -52,7 +56,7 @@ const SearchForm: FunctionComponent = () => {
     >
       <LocationInput />
 
-      <div>
+      <div css={apartmentFriendlyCheckboxContainerStyle}>
         <input
           type="checkbox"
           id="apartment-friendly-checkbox"

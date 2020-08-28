@@ -73,7 +73,7 @@ const linkStyle = css`
 
   width: 100%;
 
-  padding-top: 3px;
+  padding-top: 10px;
   padding-bottom: 3px;
 
   color: #111;

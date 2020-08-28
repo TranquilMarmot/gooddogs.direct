@@ -6,6 +6,7 @@ export enum Actions {
   SetLoading = "SetLoading",
   OnServerResponse = "OnServerResponse",
   OnServerError = "OnServerError",
+  ResetState = "ResetState",
 }
 
 interface SetLocationAction {
@@ -46,6 +47,14 @@ export const setLoading = (): SetLoadingAction => ({
   type: Actions.SetLoading,
 });
 
+interface ResetStateAction {
+  type: Actions.ResetState;
+}
+
+export const resetState = (): ResetStateAction => ({
+  type: Actions.ResetState,
+});
+
 interface OnServerResponseAction {
   type: Actions.OnServerResponse;
   payload: {
@@ -74,5 +83,6 @@ export type ActionTypes =
   | SetLocationAction
   | SetApartmentFriendlyAction
   | SetLoadingAction
+  | ResetStateAction
   | OnServerResponseAction
   | OnServerErrorAction;

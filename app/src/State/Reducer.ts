@@ -20,6 +20,13 @@ export default (state: AnimalState, action: ActionTypes): AnimalState => {
         loading: true,
         error: false,
       };
+    case Actions.ResetState:
+      return {
+        ...state,
+        pets: [],
+        currentPage: 1,
+        error: false,
+      };
     case Actions.OnServerResponse:
       return {
         ...state,

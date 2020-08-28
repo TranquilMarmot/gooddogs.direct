@@ -6,7 +6,7 @@ import { fetchAnimals } from "../../util";
 import { buttonStyle } from "../../styles";
 import Sparkles from "../../Sparkles";
 import { useAnimalState } from "../../State/Context";
-import { setApartmentFriendly } from "../../State/Actions";
+import { setApartmentFriendly, resetState } from "../../State/Actions";
 
 import LocationInput from "./LocationInput";
 import AboutApartmentFriendly from "./AboutApartmentFriendly";
@@ -41,7 +41,13 @@ const SearchForm: FunctionComponent = () => {
       css={formStyle}
       onSubmit={(e) => {
         e.preventDefault();
-        fetchAnimals(dispatch, state);
+
+        // reset the state and re-search for the first page
+        dispatch(resetState());
+        fetchAnimals(dispatch, {
+          ...state,
+          currentPage: 1,
+        });
       }}
     >
       <LocationInput />

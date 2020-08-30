@@ -1,4 +1,4 @@
-import { AnimalState } from "../types";
+import { AnimalState } from "./StateType";
 import { ActionTypes, Actions } from "./Actions";
 
 export default (state: AnimalState, action: ActionTypes): AnimalState => {

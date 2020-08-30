@@ -20,12 +20,12 @@ export interface PetFinderToken {
   expires_at: Date;
 }
 
-export interface AnimalsApiResponse {
-  animals: Animal[];
+export interface PetFinderAnimalsApiResponse {
+  animals: PetFinderAnimal[];
   pagination: Pagination;
 }
 
-export interface Animal {
+export interface PetFinderAnimal {
   id: number;
   organization_id: string;
   url: string;

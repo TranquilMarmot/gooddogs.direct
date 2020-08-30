@@ -1,32 +1,12 @@
-import { Animal } from "./types";
+import { breedFilters, descriptionFilters } from "../../ApartmentFilterLists";
 
-/** Breeds to filter out */
-const breedFilters = [
-  "Akita",
-  "Alaskan Malamute",
-  "Cane Corso",
-  "German Shepherd",
-  "Great Dane",
-  "Pit Bull",
-  "Rottweiler",
-  "Staffordshire Bull Terrier",
-];
-
-/** Descriptions to filter out */
-const descriptionFilters = [
-  "fenced yard",
-  "bonded pair",
-  "bonded with",
-  "no apartment",
-  "not suitable for an apartment",
-  "requires another dog",
-];
+import { PetFinderAnimal } from "./types";
 
 /**
  * Apply a base filter to a list of animals.
  * @param animals List of animals to filter
  */
-export const baseFilter = (animals: Animal[]): Animal[] =>
+export const baseFilter = (animals: PetFinderAnimal[]): PetFinderAnimal[] =>
   animals.filter(
     (animal) =>
       !breedFilters.some(
@@ -44,7 +24,7 @@ export const baseFilter = (animals: Animal[]): Animal[] =>
  *
  * @param animals List of animals to filter
  */
-export const filterByDescription = (animals: Animal[]) =>
+export const filterByDescription = (animals: PetFinderAnimal[]) =>
   animals.filter(
     (animal) =>
       !descriptionFilters.some(

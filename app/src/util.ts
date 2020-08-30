@@ -7,7 +7,8 @@ import {
   onServerResponse,
   OnServerError,
 } from "./State/Actions";
-import { ServerResponse, AnimalState } from "./types";
+import { AnimalState } from "./State/StateType";
+import { ServerResponse } from "./types";
 
 /** Key used to store/retrieve the user's location from localStorage */
 export const LocationLocalStorageKey = "good_dog_form_location";

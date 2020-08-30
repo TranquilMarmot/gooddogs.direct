@@ -1,15 +1,9 @@
-/** This is the shape of a response from our API */
-export interface ServerResponse {
-  animals: Animal[];
-  pagination: {
-    nextPage: number;
-  };
-}
-
 /**
- * Represents an animal.
+ * Represents an animal of some kind.
  *
- * NOTE: This should match `Animal` in `server/src/types.ts`
+ * This is the base animal type; note that each API we grab animals from has its own type as well.
+ *
+ * NOTE: This should match `Animal` in `app/src/types.ts`
  */
 export interface Animal {
   /** _Some sort_ of unique identifier for this animal */

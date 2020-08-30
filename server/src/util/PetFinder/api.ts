@@ -1,8 +1,10 @@
 import axios from "axios";
 import cheerio from "cheerio";
+import { decode } from "he";
 
-import type { PetFinderToken, AnimalsApiResponse } from "./types";
+import type { PetFinderToken, PetFinderAnimalsApiResponse } from "./types";
 import { baseFilter, filterByDescription } from "./filter";
+import { Animal } from "../../types";
 
 // PetFinder API docs: https://www.petfinder.com/developers/v2/docs/
 
@@ -81,7 +83,7 @@ const getAuthToken = async (
  * @param location Location to use when fetching dog list
  */
 export const getDogs = async (token: string, location: string, page?: number) =>
-  await api(token).get<AnimalsApiResponse>("/v2/animals", {
+  await api(token).get<PetFinderAnimalsApiResponse>("/v2/animals", {
     params: {
       type: "dog",
       location,
@@ -95,11 +97,11 @@ export const getDogs = async (token: string, location: string, page?: number) =>
  * @param token Active Petfinder API token
  * @param location Location to use when fetching dog list
  */
-export const getFilteredDogs = async (
+export const getDogsFromPetFinder = async (
   token: string,
   location: string,
-  apartmentFriendly?: boolean,
-  page?: number
+  page = 0,
+  apartmentFriendly = false
 ) => {
   const dogs = await getDogs(token, location, page);
 
@@ -125,10 +127,31 @@ export const getFilteredDogs = async (
     ? filterByDescription(filtered)
     : filtered;
 
-  return {
-    animals: filteredByDescription,
-    pagination: dogs.data.pagination,
-  };
+  const asBaseAnimal: Animal[] = filteredByDescription.map(
+    (petFinderAnimal) => ({
+      id: petFinderAnimal.id,
+      name: petFinderAnimal.name,
+
+      // yes, we have to _double_ decode here...
+      // i.e. apostrophes are encoded as &#39;
+      // but the PetFinder API returns &amp;#39; 🤦‍♂️
+      description: petFinderAnimal.description
+        ? decode(decode(petFinderAnimal.description))
+        : null,
+      url: petFinderAnimal.url,
+      source: "PetFinder",
+      photos: petFinderAnimal.photos.map((photo) => ({ url: photo.large })),
+      breeds: {
+        primary: petFinderAnimal.breeds.primary,
+        secondary: petFinderAnimal.breeds.secondary,
+      },
+      gender: petFinderAnimal.gender,
+      distance: petFinderAnimal.distance,
+      environment: petFinderAnimal.environment,
+    })
+  );
+
+  return asBaseAnimal;
 };
 
 /**

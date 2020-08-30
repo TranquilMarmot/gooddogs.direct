@@ -1,13 +1,15 @@
 import express from "express";
 import dotenv from "dotenv-flow";
 import winston from "winston";
+import { execSync, exec } from "child_process";
 
 import type { PetFinderToken } from "./util/PetFinder/types";
 import {
   refetchAuthTokenIfExpired,
-  getFilteredDogs,
+  getDogsFromPetFinder,
 } from "./util/PetFinder/api";
 import initLogging from "./logging";
+import { getDogsFromAdoptAPet } from "./util/AdoptAPet/api";
 
 dotenv.config();
 
@@ -19,6 +21,14 @@ const app = express();
 
 /** The current API token to hit Petfinder */
 let currentToken: PetFinderToken | undefined = undefined;
+
+app.get("/version", (req, res) => {
+  const commit = execSync("git rev-parse --short HEAD").toString().trim();
+
+  res.json({
+    commit,
+  });
+});
 
 /** Query params passed in to /dogs */
 interface DogsQueryParams {
@@ -40,6 +50,7 @@ app.get("/dogs", async (req, res) => {
   }
 
   const { location, apartmentFriendly, page }: DogsQueryParams = req.query;
+  const userAgent = req.get("User-Agent") || "(unknown)";
 
   winston.info(
     JSON.stringify({
@@ -48,9 +59,15 @@ app.get("/dogs", async (req, res) => {
       apartmentFriendly,
       page,
       ip: req.ip,
-      userAgent: req.get("User-Agent"),
+      userAgent,
     })
   );
+
+  const requestStart = process.hrtime();
+
+  const applyApartmentFriendlyFilter = apartmentFriendly === "true";
+  const currentPage = page ? Number.parseInt(page, 10) : 0;
+  const locationToUse = location || "98122";
 
   try {
     currentToken = await refetchAuthTokenIfExpired(
@@ -59,17 +76,41 @@ app.get("/dogs", async (req, res) => {
       currentToken
     );
 
-    const dogs = await getFilteredDogs(
-      currentToken.access_token,
-      location || "98122",
-      apartmentFriendly === "true",
-      page ? Number.parseInt(page, 10) : 1
+    const dogs = (
+      await Promise.all([
+        await getDogsFromPetFinder(
+          currentToken.access_token,
+          locationToUse,
+          currentPage,
+          applyApartmentFriendlyFilter
+        ),
+        await getDogsFromAdoptAPet(
+          locationToUse,
+          currentPage,
+          applyApartmentFriendlyFilter
+        ),
+      ])
+    ).flat();
+
+    const requestEnd = process.hrtime(requestStart);
+
+    winston.info(
+      JSON.stringify({
+        endpoint: "dogs",
+        location,
+        apartmentFriendly,
+        page,
+        ip: req.ip,
+        userAgent,
+        returnedDogs: dogs.length,
+        elapsed: requestEnd,
+      })
     );
 
     res.json({
-      animals: dogs.animals,
+      animals: dogs,
       pagination: {
-        nextPage: dogs.pagination.current_page + 1,
+        nextPage: currentPage + 1,
       },
     });
   } catch (error) {

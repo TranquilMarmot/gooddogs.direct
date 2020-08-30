@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv-flow";
 import winston from "winston";
+import { execSync, exec } from "child_process";
 
 import type { PetFinderToken } from "./util/PetFinder/types";
 import {
@@ -20,6 +21,14 @@ const app = express();
 
 /** The current API token to hit Petfinder */
 let currentToken: PetFinderToken | undefined = undefined;
+
+app.get("/version", (req, res) => {
+  const commit = execSync("git rev-parse --short HEAD").toString().trim();
+
+  res.json({
+    commit,
+  });
+});
 
 /** Query params passed in to /dogs */
 interface DogsQueryParams {

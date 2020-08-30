@@ -54,6 +54,8 @@ app.get("/dogs", async (req, res) => {
     })
   );
 
+  const requestStart = process.hrtime();
+
   const applyApartmentFriendlyFilter = apartmentFriendly === "true";
   const currentPage = page ? Number.parseInt(page, 10) : 0;
   const locationToUse = location || "98122";
@@ -80,6 +82,8 @@ app.get("/dogs", async (req, res) => {
 
     const allAnimals = petFinderDogs.concat(adoptAPetDogs);
 
+    const requestEnd = process.hrtime(requestStart);
+
     winston.info(
       JSON.stringify({
         endpoint: "dogs",
@@ -89,6 +93,7 @@ app.get("/dogs", async (req, res) => {
         ip: req.ip,
         userAgent,
         returnedDogs: allAnimals.length,
+        elapsed: requestEnd,
       })
     );
 

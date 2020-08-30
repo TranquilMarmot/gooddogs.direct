@@ -8,6 +8,7 @@ import {
   getFilteredDogs,
 } from "./util/PetFinder/api";
 import initLogging from "./logging";
+import { getDogs } from "./util/AdoptAPet/api";
 
 dotenv.config();
 
@@ -66,8 +67,13 @@ app.get("/dogs", async (req, res) => {
       page ? Number.parseInt(page, 10) : 1
     );
 
+    const moreDogs = await getDogs(
+      location,
+      page ? Number.parseInt(page, 10) * 10 : 0
+    );
+
     res.json({
-      animals: dogs.animals,
+      animals: dogs.animals.concat(moreDogs),
       pagination: {
         nextPage: dogs.pagination.current_page + 1,
       },

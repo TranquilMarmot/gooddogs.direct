@@ -108,7 +108,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
         >
           {dog.photos.map((photo) => (
             <div key={`dog-photo-${photo}`}>
-              <img alt={`${dog.name}`} css={imageStyle} src={photo.large} />
+              <img alt={`${dog.name}`} css={imageStyle} src={photo.url} />
             </div>
           ))}
         </Carousel>
@@ -139,7 +139,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        View on PetFinder
+        View on {dog.source}
         <ExternalIcon css={externalIconStyle} />
       </a>
     </Card>

@@ -1,8 +1,13 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
-import type { PetFinderToken, AnimalsApiResponse } from "./types";
+import type {
+  PetFinderToken,
+  PetFinderAnimalsApiResponse,
+  Pagination,
+} from "./types";
 import { baseFilter, filterByDescription } from "./filter";
+import { Animal } from "../../types";
 
 // PetFinder API docs: https://www.petfinder.com/developers/v2/docs/
 
@@ -81,7 +86,7 @@ const getAuthToken = async (
  * @param location Location to use when fetching dog list
  */
 export const getDogs = async (token: string, location: string, page?: number) =>
-  await api(token).get<AnimalsApiResponse>("/v2/animals", {
+  await api(token).get<PetFinderAnimalsApiResponse>("/v2/animals", {
     params: {
       type: "dog",
       location,
@@ -100,7 +105,10 @@ export const getFilteredDogs = async (
   location: string,
   apartmentFriendly?: boolean,
   page?: number
-) => {
+): Promise<{
+  animals: Animal[];
+  pagination: Pagination;
+}> => {
   const dogs = await getDogs(token, location, page);
 
   // first, we apply a base filter to get rid of known values
@@ -125,8 +133,26 @@ export const getFilteredDogs = async (
     ? filterByDescription(filtered)
     : filtered;
 
+  const asBaseAnimal: Animal[] = filteredByDescription.map(
+    (petFinderAnimal) => ({
+      id: petFinderAnimal.id,
+      name: petFinderAnimal.name,
+      description: petFinderAnimal.description,
+      url: petFinderAnimal.url,
+      source: "PetFinder",
+      photos: petFinderAnimal.photos.map((photo) => ({ url: photo.large })),
+      breeds: {
+        primary: petFinderAnimal.breeds.primary,
+        secondary: petFinderAnimal.breeds.secondary,
+      },
+      gender: petFinderAnimal.gender,
+      distance: petFinderAnimal.distance,
+      environment: petFinderAnimal.environment,
+    })
+  );
+
   return {
-    animals: filteredByDescription,
+    animals: asBaseAnimal,
     pagination: dogs.data.pagination,
   };
 };

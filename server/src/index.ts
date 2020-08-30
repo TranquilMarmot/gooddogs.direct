@@ -67,20 +67,21 @@ app.get("/dogs", async (req, res) => {
       currentToken
     );
 
-    const petFinderDogs = await getDogsFromPetFinder(
-      currentToken.access_token,
-      locationToUse,
-      currentPage,
-      applyApartmentFriendlyFilter
-    );
-
-    const adoptAPetDogs = await getDogsFromAdoptAPet(
-      locationToUse,
-      currentPage,
-      applyApartmentFriendlyFilter
-    );
-
-    const allAnimals = petFinderDogs.concat(adoptAPetDogs);
+    const dogs = (
+      await Promise.all([
+        await getDogsFromPetFinder(
+          currentToken.access_token,
+          locationToUse,
+          currentPage,
+          applyApartmentFriendlyFilter
+        ),
+        await getDogsFromAdoptAPet(
+          locationToUse,
+          currentPage,
+          applyApartmentFriendlyFilter
+        ),
+      ])
+    ).flat();
 
     const requestEnd = process.hrtime(requestStart);
 
@@ -92,13 +93,13 @@ app.get("/dogs", async (req, res) => {
         page,
         ip: req.ip,
         userAgent,
-        returnedDogs: allAnimals.length,
+        returnedDogs: dogs.length,
         elapsed: requestEnd,
       })
     );
 
     res.json({
-      animals: allAnimals,
+      animals: dogs,
       pagination: {
         nextPage: currentPage + 1,
       },

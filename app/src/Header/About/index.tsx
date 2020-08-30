@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, useMemo } from "react";
+import GitInfo from "react-git-info/macro";
 
 import Modal from "../../Modal";
 
@@ -48,8 +49,15 @@ const infoStyle = css`
   }
 `;
 
+const versionStyle = css`
+  font-size: 11px;
+  color: #999;
+`;
+
 const About: FunctionComponent = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const gitInfo = useMemo(GitInfo, []);
+
   return (
     <div css={aboutContainerStyle}>
       <button css={aboutButtonStyle} onClick={() => setModalOpen(true)}>
@@ -63,6 +71,7 @@ const About: FunctionComponent = () => {
           <Phil />
           <Info />
         </div>
+        <span css={versionStyle}>Version {gitInfo.commit.shortHash}</span>
       </Modal>
     </div>
   );

@@ -6,7 +6,7 @@ import React, {
   useContext,
 } from "react";
 
-import { AnimalState } from "../types";
+import { AnimalState } from "./StateType";
 import Reducer from "./Reducer";
 import { ActionTypes, setLocation, setApartmentFriendly } from "./Actions";
 import { getStateFromLocalStorage } from "../util";

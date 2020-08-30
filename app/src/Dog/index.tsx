@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
-import { decode } from "he";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -126,10 +125,7 @@ const Dog: FunctionComponent<DogProps> = ({ dog }) => {
       <Info distance={dog.distance} gender={dog.gender} />
       <div css={descriptionStyle}>
         {dog.description && dog.description.length > 0
-          ? // yes, we have to _double_ decode here...
-            // i.e. apostrophes are encoded as &#39;
-            // but the PetFinder API returns &amp;#39; 🤦‍♂️
-            decode(decode(dog.description))
+          ? dog.description
           : "(no description)"}
       </div>
       <GoodWith environment={dog.environment} />

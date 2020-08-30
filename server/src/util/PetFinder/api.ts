@@ -1,11 +1,8 @@
 import axios from "axios";
 import cheerio from "cheerio";
+import { decode } from "he";
 
-import type {
-  PetFinderToken,
-  PetFinderAnimalsApiResponse,
-  Pagination,
-} from "./types";
+import type { PetFinderToken, PetFinderAnimalsApiResponse } from "./types";
 import { baseFilter, filterByDescription } from "./filter";
 import { Animal } from "../../types";
 
@@ -100,15 +97,12 @@ export const getDogs = async (token: string, location: string, page?: number) =>
  * @param token Active Petfinder API token
  * @param location Location to use when fetching dog list
  */
-export const getFilteredDogs = async (
+export const getDogsFromPetFinder = async (
   token: string,
   location: string,
-  apartmentFriendly?: boolean,
-  page?: number
-): Promise<{
-  animals: Animal[];
-  pagination: Pagination;
-}> => {
+  page = 0,
+  apartmentFriendly = false
+) => {
   const dogs = await getDogs(token, location, page);
 
   // first, we apply a base filter to get rid of known values
@@ -137,7 +131,13 @@ export const getFilteredDogs = async (
     (petFinderAnimal) => ({
       id: petFinderAnimal.id,
       name: petFinderAnimal.name,
-      description: petFinderAnimal.description,
+
+      // yes, we have to _double_ decode here...
+      // i.e. apostrophes are encoded as &#39;
+      // but the PetFinder API returns &amp;#39; 🤦‍♂️
+      description: petFinderAnimal.description
+        ? decode(decode(petFinderAnimal.description))
+        : null,
       url: petFinderAnimal.url,
       source: "PetFinder",
       photos: petFinderAnimal.photos.map((photo) => ({ url: photo.large })),
@@ -151,10 +151,7 @@ export const getFilteredDogs = async (
     })
   );
 
-  return {
-    animals: asBaseAnimal,
-    pagination: dogs.data.pagination,
-  };
+  return asBaseAnimal;
 };
 
 /**

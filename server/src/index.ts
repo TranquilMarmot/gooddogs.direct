@@ -5,10 +5,10 @@ import winston from "winston";
 import type { PetFinderToken } from "./util/PetFinder/types";
 import {
   refetchAuthTokenIfExpired,
-  getFilteredDogs,
+  getDogsFromPetFinder,
 } from "./util/PetFinder/api";
 import initLogging from "./logging";
-import { getDogs } from "./util/AdoptAPet/api";
+import { getDogsFromAdoptAPet } from "./util/AdoptAPet/api";
 
 dotenv.config();
 
@@ -41,6 +41,7 @@ app.get("/dogs", async (req, res) => {
   }
 
   const { location, apartmentFriendly, page }: DogsQueryParams = req.query;
+  const userAgent = req.get("User-Agent") || "(unknown)";
 
   winston.info(
     JSON.stringify({
@@ -49,9 +50,13 @@ app.get("/dogs", async (req, res) => {
       apartmentFriendly,
       page,
       ip: req.ip,
-      userAgent: req.get("User-Agent"),
+      userAgent,
     })
   );
+
+  const applyApartmentFriendlyFilter = apartmentFriendly === "true";
+  const currentPage = page ? Number.parseInt(page, 10) : 0;
+  const locationToUse = location || "98122";
 
   try {
     currentToken = await refetchAuthTokenIfExpired(
@@ -60,22 +65,37 @@ app.get("/dogs", async (req, res) => {
       currentToken
     );
 
-    const dogs = await getFilteredDogs(
+    const petFinderDogs = await getDogsFromPetFinder(
       currentToken.access_token,
-      location || "98122",
-      apartmentFriendly === "true",
-      page ? Number.parseInt(page, 10) : 1
+      locationToUse,
+      currentPage,
+      applyApartmentFriendlyFilter
     );
 
-    const moreDogs = await getDogs(
-      location,
-      page ? Number.parseInt(page, 10) * 10 : 0
+    const adoptAPetDogs = await getDogsFromAdoptAPet(
+      locationToUse,
+      currentPage,
+      applyApartmentFriendlyFilter
+    );
+
+    const allAnimals = petFinderDogs.concat(adoptAPetDogs);
+
+    winston.info(
+      JSON.stringify({
+        endpoint: "dogs",
+        location,
+        apartmentFriendly,
+        page,
+        ip: req.ip,
+        userAgent,
+        returnedDogs: allAnimals.length,
+      })
     );
 
     res.json({
-      animals: dogs.animals.concat(moreDogs),
+      animals: allAnimals,
       pagination: {
-        nextPage: dogs.pagination.current_page + 1,
+        nextPage: currentPage + 1,
       },
     });
   } catch (error) {

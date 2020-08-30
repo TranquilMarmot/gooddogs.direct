@@ -1,20 +1,20 @@
 {
-  "name": "find-a-dog",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "good-dogs-direct",
+  "description": "Base package for running scripts",
+  "version": "0.1.0",
+  "author": "TranquilMarmot",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TranquilMarmot/gooddogs.direct.git"
+  },
   "scripts": {
     "postinstall": "cd app && npm install && cd ../server && npm install",
     "start:server": "cd server && npm start",
     "start:app": "cd app && npm start",
-    "start": "concurrently --names \"srv,app\" --prefix \"{name}-{time}\" --prefix-colors \"blue,cyan,magenta,green\"  \"npm:start:server\" \"npm:start:app\""
+    "start": "concurrently --names \"srv,app\" --prefix \"{name}-{time}\" --prefix-colors \"blue,cyan\"  \"npm:start:server\" \"npm:start:app\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TranquilMarmot/find-a-dog.git"
-  },
-  "author": "TranquilMarmot",
-  "license": "MIT",
   "devDependencies": {
     "concurrently": "^5.3.0"
   }

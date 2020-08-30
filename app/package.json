@@ -1,23 +1,10 @@
 {
-  "name": "find-a-dog-app",
+  "name": "good-dogs-direct-app",
+  "description": "App for gooddogs.direct",
   "version": "0.1.0",
   "author": "TranquilMarmot",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "@emotion/core": "^10.0.34",
-    "@types/he": "^1.1.1",
-    "@types/react-modal": "^3.10.6",
-    "axios": "^0.19.2",
-    "he": "^1.2.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-infinite-scroll-hook": "^3.0.0",
-    "react-modal": "^3.11.2",
-    "react-responsive-carousel": "^3.2.9",
-    "react-scripts": "3.4.3",
-    "typescript": "^3.7.5"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -40,12 +27,23 @@
       "last 1 safari version"
     ]
   },
+  "dependencies": {
+    "@emotion/core": "^10.0.34",
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-infinite-scroll-hook": "^3.0.0",
+    "react-modal": "^3.11.2",
+    "react-responsive-carousel": "^3.2.9",
+    "react-scripts": "3.4.3",
+    "typescript": "^3.7.5"
+  },
   "devDependencies": {
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.54",
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
-    "@types/vivus": "^0.4.2",
+    "@types/react-modal": "^3.10.6",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1"

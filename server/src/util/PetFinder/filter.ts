@@ -1,26 +1,6 @@
+import { breedFilters, descriptionFilters } from "../../ApartmentFilterLists";
+
 import { PetFinderAnimal } from "./types";
-
-/** Breeds to filter out */
-const breedFilters = [
-  "Akita",
-  "Alaskan Malamute",
-  "Cane Corso",
-  "German Shepherd",
-  "Great Dane",
-  "Pit Bull",
-  "Rottweiler",
-  "Staffordshire Bull Terrier",
-];
-
-/** Descriptions to filter out */
-const descriptionFilters = [
-  "fenced yard",
-  "bonded pair",
-  "bonded with",
-  "no apartment",
-  "not suitable for an apartment",
-  "requires another dog",
-];
 
 /**
  * Apply a base filter to a list of animals.

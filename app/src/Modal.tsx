@@ -11,7 +11,7 @@ const modalStyles: ReactModal.Styles = {
     maxWidth: "1500px",
     marginLeft: "auto",
     marginRight: "auto",
-    height: "660px",
+    height: "700px",
     width: "75%",
   },
   overlay: {

@@ -16,6 +16,11 @@ const Info: FunctionComponent = () => {
   return (
     <div>
       <p>
+        Good Dogs Direct aggregates good dogs from PetFinder and Adopt-A-Pet and
+        displays them in chronological order, starting with the most recently
+        added dogs.
+      </p>
+      <p>
         Made with{" "}
         <span role="img" aria-label="dogs">
           🐕

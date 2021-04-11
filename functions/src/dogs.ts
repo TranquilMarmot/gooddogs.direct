@@ -1,34 +1,20 @@
-import express from "express";
+import type { APIGatewayEvent, Context } from "aws-lambda";
+
 import dotenv from "dotenv-flow";
-import winston from "winston";
-import { execSync, exec } from "child_process";
 
 import type { PetFinderToken } from "./util/PetFinder/types";
 import {
   refetchAuthTokenIfExpired,
   getDogsFromPetFinder,
 } from "./util/PetFinder/api";
-import initLogging from "./logging";
 import { getDogsFromAdoptAPet } from "./util/AdoptAPet/api";
 
 dotenv.config();
 
 const { PETFINDER_API_KEY, PETFINDER_API_KEY_SECRET, PORT } = process.env;
 
-initLogging();
-
-const app = express();
-
 /** The current API token to hit Petfinder */
 let currentToken: PetFinderToken | undefined = undefined;
-
-app.get("/version", (req, res) => {
-  const commit = execSync("git rev-parse --short HEAD").toString().trim();
-
-  res.json({
-    commit,
-  });
-});
 
 /** Query params passed in to /dogs */
 interface DogsQueryParams {
@@ -42,28 +28,36 @@ interface DogsQueryParams {
   page?: string;
 }
 
-app.get("/dogs", async (req, res) => {
+export async function handler(event: APIGatewayEvent, context: Context) {
   if (!PETFINDER_API_KEY || !PETFINDER_API_KEY_SECRET) {
-    res.status(500).json({ error: "Server config error" });
-    winston.error("API key or API key secret not configured!");
-    return;
+    return {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "API key or API key secret not configured!",
+      }),
+    };
   }
 
-  const { location, apartmentFriendly, page }: DogsQueryParams = req.query;
-  const userAgent = req.get("User-Agent") || "(unknown)";
+  if (!event.queryStringParameters) {
+    return {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "Query string parameters not present",
+      }),
+    };
+  }
 
-  winston.info(
-    JSON.stringify({
-      endpoint: "dogs",
-      location,
-      apartmentFriendly,
-      page,
-      ip: req.ip,
-      userAgent,
-    })
-  );
-
-  const requestStart = process.hrtime();
+  const {
+    location,
+    apartmentFriendly,
+    page,
+  }: DogsQueryParams = event.queryStringParameters;
 
   const applyApartmentFriendlyFilter = apartmentFriendly === "true";
   const currentPage = page ? Number.parseInt(page, 10) : 0;
@@ -75,6 +69,7 @@ app.get("/dogs", async (req, res) => {
       PETFINDER_API_KEY_SECRET,
       currentToken
     );
+
 
     const dogs = (
       await Promise.all([
@@ -92,39 +87,31 @@ app.get("/dogs", async (req, res) => {
       ])
     ).flat();
 
-    const requestEnd = process.hrtime(requestStart);
-
-    winston.info(
-      JSON.stringify({
-        endpoint: "dogs",
-        location,
-        apartmentFriendly,
-        page,
-        ip: req.ip,
-        userAgent,
-        returnedDogs: dogs.length,
-        elapsed: requestEnd,
-      })
-    );
-
-    res.json({
-      animals: dogs,
-      pagination: {
-        nextPage: currentPage + 1,
+    return {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
       },
-    });
+      body: JSON.stringify({
+        animals: dogs,
+        pagination: {
+          nextPage: currentPage + 1,
+        },
+      }),
+    };
   } catch (error) {
-    winston.error(error);
 
     // if we get this back, it means that the token is probably expired and we should try and fetch a new one...
     if (error.data?.detail?.includes("Access token invalid or expired")) {
       currentToken = undefined;
     }
 
-    res.status(500).json({ error: "Error fetching dogs!" });
+    return {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(error),
+    };
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
-});
+}

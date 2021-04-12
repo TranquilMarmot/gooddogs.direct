@@ -1,4 +1,5 @@
 require("encoding");
+require("string_decoder");
 
 import type { APIGatewayEvent, Context } from "aws-lambda";
 

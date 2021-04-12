@@ -3,6 +3,8 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
 import { ReactComponent as CoffeeIcon } from "../../images/dog_coffee.svg";
+import { ReactComponent as GithubIcon } from "../../images/github.svg";
+import { ReactComponent as NetlifyIcon } from "../../images/netlify.svg";
 
 const coffeeStyle = css`
   display: flex;
@@ -10,6 +12,18 @@ const coffeeStyle = css`
   align-items: center;
   margin-bottom: 25px;
   margin-top: 25px;
+`;
+
+const sourceLinkStyle = css`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const sourceIconStyle = css`
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 `;
 
 const Info: FunctionComponent = () => {
@@ -92,6 +106,24 @@ const Info: FunctionComponent = () => {
           for an actually usable reverse geocoding API
         </li>
       </ul>
+      <a
+        css={sourceLinkStyle}
+        href="https://github.com/TranquilMarmot/gooddogs.direct"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <GithubIcon css={sourceIconStyle} />
+        Open Source
+      </a>
+      <a
+        css={sourceLinkStyle}
+        href="https://www.netlify.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <NetlifyIcon css={sourceIconStyle} />
+        Deployed on Netlify
+      </a>
       <a
         css={coffeeStyle}
         href="https://ko-fi.com/tranquilmarmot"

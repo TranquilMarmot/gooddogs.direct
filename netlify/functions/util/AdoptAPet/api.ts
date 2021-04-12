@@ -2,8 +2,8 @@ import { request, gql } from "graphql-request";
 import sanitizeHtml from "sanitize-html";
 
 import { AdoptAPetResponse, AdoptAPetAnimal } from "./types";
-import { Animal, Gender } from "../../types";
-import { breedFilters, descriptionFilters } from "../../ApartmentFilterLists";
+import { Animal, Gender } from "../types";
+import { breedFilters, descriptionFilters } from "../ApartmentFilterLists";
 
 /**
  * GraphQL endpoint to hit to get pets from adopt-a-pet

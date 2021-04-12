@@ -1,0 +1,6 @@
+[dev]
+  framework = "create-react-app"
+[build]
+  command = "npm run build && npm run build-functions"
+  functions = "lambda"
+  publish = "build"

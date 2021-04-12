@@ -4,7 +4,7 @@ import { decode } from "he";
 
 import type { PetFinderToken, PetFinderAnimalsApiResponse } from "./types";
 import { baseFilter, filterByDescription } from "./filter";
-import { Animal } from "../../types";
+import { Animal } from "../types";
 
 // PetFinder API docs: https://www.petfinder.com/developers/v2/docs/
 

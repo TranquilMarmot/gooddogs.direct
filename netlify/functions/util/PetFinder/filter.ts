@@ -1,4 +1,4 @@
-import { breedFilters, descriptionFilters } from "../../ApartmentFilterLists";
+import { breedFilters, descriptionFilters } from "../ApartmentFilterLists";
 
 import { PetFinderAnimal } from "./types";
 

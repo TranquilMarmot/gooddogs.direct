@@ -34,7 +34,7 @@ interface DogsQueryParams {
 export async function handler(event: APIGatewayEvent, context: Context) {
   if (!PETFINDER_API_KEY || !PETFINDER_API_KEY_SECRET) {
     return {
-      status: 500,
+      statusCode: 500,
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,7 +46,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
   if (!event.queryStringParameters) {
     return {
-      status: 400,
+      statusCode: 400,
       headers: {
         "Content-Type": "application/json",
       },
@@ -90,7 +90,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     ).flat();
 
     return {
-      status: 400,
+      statusCode: 200,
       headers: {
         "Content-Type": "application/json",
       },
@@ -108,7 +108,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     }
 
     return {
-      status: 500,
+      statusCode: 500,
       headers: {
         "Content-Type": "application/json",
       },

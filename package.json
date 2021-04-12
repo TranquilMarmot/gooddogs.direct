@@ -10,12 +10,8 @@
     "url": "git+https://github.com/TranquilMarmot/gooddogs.direct.git"
   },
   "scripts": {
-    "postinstall": "cd app && npm install && cd ../server && npm install",
-    "start:server": "cd server && npm start",
+    "postinstall": "cd app && npm install && cd ../functions && npm install",
     "start:app": "cd app && npm start",
-    "start": "concurrently --names \"srv,app\" --prefix \"{name}-{time}\" --prefix-colors \"blue,cyan\"  \"npm:start:server\" \"npm:start:app\""
-  },
-  "devDependencies": {
-    "concurrently": "^5.3.0"
+    "build": "cd app && npm run build && cd ../functions && npm run build"
   }
 }

@@ -12,6 +12,6 @@
   "scripts": {
     "postinstall": "cd app && npm install && cd ../functions && npm install",
     "start:app": "cd app && npm start",
-    "build": "cd app && npm run build && cd ../functions && npm run build"
+    "build": "cd app && npm run build"
   }
 }

@@ -1,3 +1,5 @@
+require("encoding");
+
 import type { APIGatewayEvent, Context } from "aws-lambda";
 
 import dotenv from "dotenv-flow";

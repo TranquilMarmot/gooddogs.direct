@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "12"
+        },
+        "shippedProposals": true
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-transform-runtime"
+  ],
+  "ignore": ["node_modules"]
+}

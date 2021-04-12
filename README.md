@@ -142,6 +142,7 @@ _THANK YOU_ OpenSreetMap. This app should be used infrequently enough to comply 
 
 [✨ gooddogs.direct ✨](https://gooddogs.direct) is dedicated to the sweetest boy, Phil. I miss you buddy.
 
-_2004 - 2019_
-
-<img src="./src/images/phil5.jpg" alt="Picture of a dog, Phil, with his head on a laptop. He is asking for a walk." width="500px" />
+<center>
+  <img src="./src/images/phil5.jpg" alt="Picture of a dog, Phil, with his head on a laptop. He is asking for a walk." width="500px" />
+  <em>2004 - 2019</em>
+</center>

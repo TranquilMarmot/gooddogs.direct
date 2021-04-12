@@ -80,7 +80,7 @@ export const fetchAnimals = async (
 
   try {
     const response = (
-      await axios.get<ServerResponse>("/dogs", {
+      await axios.get<ServerResponse>("/.netlify/functions/dogs", {
         params: {
           location,
           apartmentFriendly,

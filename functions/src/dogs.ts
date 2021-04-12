@@ -1,3 +1,5 @@
+require("encoding");
+
 import type { APIGatewayEvent, Context } from "aws-lambda";
 
 import dotenv from "dotenv-flow";
@@ -70,7 +72,6 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       currentToken
     );
 
-
     const dogs = (
       await Promise.all([
         await getDogsFromPetFinder(
@@ -100,7 +101,6 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       }),
     };
   } catch (error) {
-
     // if we get this back, it means that the token is probably expired and we should try and fetch a new one...
     if (error.data?.detail?.includes("Access token invalid or expired")) {
       currentToken = undefined;

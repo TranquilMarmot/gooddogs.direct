@@ -10,7 +10,7 @@
     "url": "git+https://github.com/TranquilMarmot/gooddogs.direct.git"
   },
   "scripts": {
-    "postinstall": "cd app && npm install && cd ../functions && npm install",
+    "postinstall": "cd app && npm install",
     "start:app": "cd app && npm start",
     "build": "cd app && npm run build"
   }
